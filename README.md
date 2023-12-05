@@ -1,5 +1,5 @@
 # cricket-fever
-This repository is used to build cricket team management application. 
+This repository is used to build cricket game application. 
 This application will consist of following features : 
 - Player Mangement
 - Team Management

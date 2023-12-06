@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -23,44 +24,124 @@ import (
 
 // CricketTeam is an object representing the database table.
 type CricketTeam struct {
-	TeamID   int    `boil:"team_id" json:"team_id" toml:"team_id" yaml:"team_id"`
-	TeamName string `boil:"team_name" json:"team_name" toml:"team_name" yaml:"team_name"`
-	Country  string `boil:"country" json:"country" toml:"country" yaml:"country"`
+	TeamID        int      `boil:"team_id" json:"team_id" toml:"team_id" yaml:"team_id"`
+	TeamUUID      string   `boil:"team_uuid" json:"team_uuid" toml:"team_uuid" yaml:"team_uuid"`
+	TeamName      string   `boil:"team_name" json:"team_name" toml:"team_name" yaml:"team_name"`
+	TeamCountry   string   `boil:"team_country" json:"team_country" toml:"team_country" yaml:"team_country"`
+	TeamState     string   `boil:"team_state" json:"team_state" toml:"team_state" yaml:"team_state"`
+	TeamCity      string   `boil:"team_city" json:"team_city" toml:"team_city" yaml:"team_city"`
+	CaptainID     null.Int `boil:"captain_id" json:"captain_id,omitempty" toml:"captain_id" yaml:"captain_id,omitempty"`
+	ViceCaptainID null.Int `boil:"vice_captain_id" json:"vice_captain_id,omitempty" toml:"vice_captain_id" yaml:"vice_captain_id,omitempty"`
+	TeamCoachID   null.Int `boil:"team_coach_id" json:"team_coach_id,omitempty" toml:"team_coach_id" yaml:"team_coach_id,omitempty"`
 
 	R *cricketTeamR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L cricketTeamL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var CricketTeamColumns = struct {
-	TeamID   string
-	TeamName string
-	Country  string
+	TeamID        string
+	TeamUUID      string
+	TeamName      string
+	TeamCountry   string
+	TeamState     string
+	TeamCity      string
+	CaptainID     string
+	ViceCaptainID string
+	TeamCoachID   string
 }{
-	TeamID:   "team_id",
-	TeamName: "team_name",
-	Country:  "country",
+	TeamID:        "team_id",
+	TeamUUID:      "team_uuid",
+	TeamName:      "team_name",
+	TeamCountry:   "team_country",
+	TeamState:     "team_state",
+	TeamCity:      "team_city",
+	CaptainID:     "captain_id",
+	ViceCaptainID: "vice_captain_id",
+	TeamCoachID:   "team_coach_id",
 }
 
 var CricketTeamTableColumns = struct {
-	TeamID   string
-	TeamName string
-	Country  string
+	TeamID        string
+	TeamUUID      string
+	TeamName      string
+	TeamCountry   string
+	TeamState     string
+	TeamCity      string
+	CaptainID     string
+	ViceCaptainID string
+	TeamCoachID   string
 }{
-	TeamID:   "cricket_teams.team_id",
-	TeamName: "cricket_teams.team_name",
-	Country:  "cricket_teams.country",
+	TeamID:        "cricket_teams.team_id",
+	TeamUUID:      "cricket_teams.team_uuid",
+	TeamName:      "cricket_teams.team_name",
+	TeamCountry:   "cricket_teams.team_country",
+	TeamState:     "cricket_teams.team_state",
+	TeamCity:      "cricket_teams.team_city",
+	CaptainID:     "cricket_teams.captain_id",
+	ViceCaptainID: "cricket_teams.vice_captain_id",
+	TeamCoachID:   "cricket_teams.team_coach_id",
 }
 
 // Generated where
 
+type whereHelpernull_Int struct{ field string }
+
+func (w whereHelpernull_Int) EQ(x null.Int) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_Int) NEQ(x null.Int) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_Int) LT(x null.Int) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_Int) LTE(x null.Int) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_Int) GT(x null.Int) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_Int) GTE(x null.Int) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+func (w whereHelpernull_Int) IN(slice []int) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
+}
+func (w whereHelpernull_Int) NIN(slice []int) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
+}
+
+func (w whereHelpernull_Int) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_Int) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+
 var CricketTeamWhere = struct {
-	TeamID   whereHelperint
-	TeamName whereHelperstring
-	Country  whereHelperstring
+	TeamID        whereHelperint
+	TeamUUID      whereHelperstring
+	TeamName      whereHelperstring
+	TeamCountry   whereHelperstring
+	TeamState     whereHelperstring
+	TeamCity      whereHelperstring
+	CaptainID     whereHelpernull_Int
+	ViceCaptainID whereHelpernull_Int
+	TeamCoachID   whereHelpernull_Int
 }{
-	TeamID:   whereHelperint{field: "\"cricket_teams\".\"team_id\""},
-	TeamName: whereHelperstring{field: "\"cricket_teams\".\"team_name\""},
-	Country:  whereHelperstring{field: "\"cricket_teams\".\"country\""},
+	TeamID:        whereHelperint{field: "\"cricket_teams\".\"team_id\""},
+	TeamUUID:      whereHelperstring{field: "\"cricket_teams\".\"team_uuid\""},
+	TeamName:      whereHelperstring{field: "\"cricket_teams\".\"team_name\""},
+	TeamCountry:   whereHelperstring{field: "\"cricket_teams\".\"team_country\""},
+	TeamState:     whereHelperstring{field: "\"cricket_teams\".\"team_state\""},
+	TeamCity:      whereHelperstring{field: "\"cricket_teams\".\"team_city\""},
+	CaptainID:     whereHelpernull_Int{field: "\"cricket_teams\".\"captain_id\""},
+	ViceCaptainID: whereHelpernull_Int{field: "\"cricket_teams\".\"vice_captain_id\""},
+	TeamCoachID:   whereHelpernull_Int{field: "\"cricket_teams\".\"team_coach_id\""},
 }
 
 // CricketTeamRels is where relationship names are stored.
@@ -91,9 +172,9 @@ func (r *cricketTeamR) GetTeamTeamPlayers() TeamPlayerSlice {
 type cricketTeamL struct{}
 
 var (
-	cricketTeamAllColumns            = []string{"team_id", "team_name", "country"}
-	cricketTeamColumnsWithoutDefault = []string{"team_name", "country"}
-	cricketTeamColumnsWithDefault    = []string{"team_id"}
+	cricketTeamAllColumns            = []string{"team_id", "team_uuid", "team_name", "team_country", "team_state", "team_city", "captain_id", "vice_captain_id", "team_coach_id"}
+	cricketTeamColumnsWithoutDefault = []string{"team_uuid", "team_name", "team_country", "team_state", "team_city"}
+	cricketTeamColumnsWithDefault    = []string{"team_id", "captain_id", "vice_captain_id", "team_coach_id"}
 	cricketTeamPrimaryKeyColumns     = []string{"team_id"}
 	cricketTeamGeneratedColumns      = []string{}
 )

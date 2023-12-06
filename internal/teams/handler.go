@@ -1,21 +1,21 @@
-package handlers
+package teams
 
 import (
 	"context"
 	"encoding/json"
 	"net/http"
 
+	"github.com/sports-dynamics/cricket-fever/internal/handlers"
 	"github.com/sports-dynamics/cricket-fever/internal/modo"
-	"github.com/sports-dynamics/cricket-fever/internal/requests"
-	"github.com/sports-dynamics/cricket-fever/internal/services"
 	"go.uber.org/zap"
 )
 
 type createTeam struct {
-	service services.Team
+	service Team
 }
 
-func NewCreateTeamHandler(service services.Team) http.HandlerFunc {
+func NewCreateTeamHandler(service Team) http.HandlerFunc {
+
 	return createTeam{service: service}.ServeHTTP
 }
 
@@ -23,17 +23,17 @@ type CreateTeam struct {
 }
 
 func (t createTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	var request requests.CreateTeamRequestParams
+	var request CreateTeamRequestParams
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&request); err != nil {
-		RespondWithError(r.Context(), w, err, http.StatusBadRequest)
+		handlers.RespondWithError(r.Context(), w, err, http.StatusBadRequest)
 		return
 	}
 	defer r.Body.Close()
 
 	if err := request.Validate(); err != nil {
-		RespondWithError(r.Context(), w, err, http.StatusUnprocessableEntity)
+		handlers.RespondWithError(r.Context(), w, err, http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -41,9 +41,9 @@ func (t createTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not create account.", zap.Error(err))
-		RespondWithError(r.Context(), w, err, http.StatusInternalServerError)
+		handlers.RespondWithError(r.Context(), w, err, http.StatusInternalServerError)
 		return
 	}
 
-	RespondWithSuccess(r.Context(), w, team, http.StatusCreated)
+	handlers.RespondWithSuccess(r.Context(), w, team, http.StatusCreated)
 }

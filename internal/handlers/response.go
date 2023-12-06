@@ -9,7 +9,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func respondWithSuccess(ctx context.Context, w http.ResponseWriter, response any, statusCode int) {
+func RespondWithSuccess(ctx context.Context, w http.ResponseWriter, response any, statusCode int) {
 	w.WriteHeader(statusCode)
 	if err := json.NewEncoder(w).Encode(response); err != nil {
 		zap.Error(errors.New("encoding failed , err = " + err.Error()))

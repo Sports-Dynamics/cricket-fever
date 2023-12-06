@@ -722,7 +722,7 @@ func testCricketPlayersSelect(t *testing.T) {
 }
 
 var (
-	cricketPlayerDBTypes = map[string]string{`PlayerID`: `integer`, `PlayerName`: `character varying`, `FieldingPosition`: `character varying`, `BattingPosition`: `integer`, `BowlerType`: `character varying`}
+	cricketPlayerDBTypes = map[string]string{`PlayerID`: `integer`, `PlayerName`: `character varying`, `PlayerEmail`: `character varying`, `PlayerMobile`: `integer`, `PlayerPicture`: `bytea`, `PlayerRole`: `enum.cricket_role('Batsman','Bowler','Batsman AllRounder','Bowling AllRounder','Wicket Keeper')`, `BattingPositions`: `enum.cricket_batting_position('Opening Batsman','Top Order','Middle Order','Lower Middle Order','Tailender')`, `BowlerTypes`: `enum.cricket_bowler_type('Fast Bowler','Medium Fast Bowler','Medium Pacer','Spin Bowler','Leg Spinner','Off Spinner','ChinaMen')`, `FieldingPositions`: `enum.cricket_fielding_position('Slip','Gully','Third Man','Fine Leg','Deep Square Leg','Deep Midwicket','Long On','Long Off','Cover','Extra Cover','Point','Square Leg','Mid On','Mid Off','Midwicket','Short Leg','Leg Slip','Short Fine Leg')`}
 	_                    = bytes.MinRead
 )
 

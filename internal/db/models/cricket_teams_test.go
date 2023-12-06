@@ -722,7 +722,7 @@ func testCricketTeamsSelect(t *testing.T) {
 }
 
 var (
-	cricketTeamDBTypes = map[string]string{`TeamID`: `integer`, `TeamName`: `character varying`, `Country`: `character varying`}
+	cricketTeamDBTypes = map[string]string{`TeamID`: `integer`, `TeamUUID`: `uuid`, `TeamName`: `character varying`, `TeamCountry`: `character varying`, `TeamState`: `character varying`, `TeamCity`: `character varying`, `CaptainID`: `integer`, `ViceCaptainID`: `integer`, `TeamCoachID`: `integer`}
 	_                  = bytes.MinRead
 )
 

@@ -10,7 +10,7 @@ import (
 
 type Team interface {
 	CreateTeam(ctx context.Context, req requests.CreateTeamRequestParams) (models.CricketTeam, error)
-	JoinTeam(ctx context.Context, teamId int, playerID int)
+	// JoinTeam(ctx context.Context, teamId int, playerID int)
 }
 
 type TeamService struct {

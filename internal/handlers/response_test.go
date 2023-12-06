@@ -16,7 +16,7 @@ func TestRespondWithSuccess(t *testing.T) {
 	statusCode := http.StatusOK
 	recorder := httptest.NewRecorder()
 
-	respondWithSuccess(ctx, recorder, responseData, statusCode)
+	RespondWithSuccess(ctx, recorder, responseData, statusCode)
 
 	assert.Equal(t, statusCode, recorder.Code, "Status code should match expected")
 	var responseBody map[string]string

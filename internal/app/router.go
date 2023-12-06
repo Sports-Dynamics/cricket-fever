@@ -13,8 +13,7 @@ import (
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
 	auth "github.com/sports-dynamics/cricket-fever/internal/middleware"
 	"github.com/sports-dynamics/cricket-fever/internal/modo"
-	"github.com/sports-dynamics/cricket-fever/internal/repositories"
-	"github.com/sports-dynamics/cricket-fever/internal/services"
+	"github.com/sports-dynamics/cricket-fever/internal/teams"
 	"go.uber.org/zap"
 )
 
@@ -34,11 +33,11 @@ func newRouter(config Config) http.Handler {
 			fmt.Println(" err : ", err)
 		}
 
-		teamRepo := repositories.NewCreateTeamRepo(db)
-		teamService := services.NewTeamService(teamRepo)
+		teamRepo := teams.NewCreateTeamRepo(db)
+		teamService := teams.NewTeamService(teamRepo)
 
 		r.Route("/team", func(r chi.Router) {
-			r.Post("/", handlers.NewCreateTeamHandler(teamService))
+			r.Post("/", teams.NewCreateTeamHandler(teamService))
 		})
 	})
 

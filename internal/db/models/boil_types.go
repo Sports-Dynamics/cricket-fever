@@ -50,3 +50,169 @@ func makeCacheKey(cols boil.Columns, nzDefaults []string) string {
 	strmangle.PutBuffer(buf)
 	return str
 }
+
+type CricketRole string
+
+// Enum values for CricketRole
+const (
+	CricketRoleBatsman           CricketRole = "Batsman"
+	CricketRoleBowler            CricketRole = "Bowler"
+	CricketRoleBatsmanAllRounder CricketRole = "Batsman AllRounder"
+	CricketRoleBowlingAllRounder CricketRole = "Bowling AllRounder"
+	CricketRoleWicketKeeper      CricketRole = "Wicket Keeper"
+)
+
+func AllCricketRole() []CricketRole {
+	return []CricketRole{
+		CricketRoleBatsman,
+		CricketRoleBowler,
+		CricketRoleBatsmanAllRounder,
+		CricketRoleBowlingAllRounder,
+		CricketRoleWicketKeeper,
+	}
+}
+
+func (e CricketRole) IsValid() error {
+	switch e {
+	case CricketRoleBatsman, CricketRoleBowler, CricketRoleBatsmanAllRounder, CricketRoleBowlingAllRounder, CricketRoleWicketKeeper:
+		return nil
+	default:
+		return errors.New("enum is not valid")
+	}
+}
+
+func (e CricketRole) String() string {
+	return string(e)
+}
+
+type CricketBattingPosition string
+
+// Enum values for CricketBattingPosition
+const (
+	CricketBattingPositionOpeningBatsman   CricketBattingPosition = "Opening Batsman"
+	CricketBattingPositionTopOrder         CricketBattingPosition = "Top Order"
+	CricketBattingPositionMiddleOrder      CricketBattingPosition = "Middle Order"
+	CricketBattingPositionLowerMiddleOrder CricketBattingPosition = "Lower Middle Order"
+	CricketBattingPositionTailender        CricketBattingPosition = "Tailender"
+)
+
+func AllCricketBattingPosition() []CricketBattingPosition {
+	return []CricketBattingPosition{
+		CricketBattingPositionOpeningBatsman,
+		CricketBattingPositionTopOrder,
+		CricketBattingPositionMiddleOrder,
+		CricketBattingPositionLowerMiddleOrder,
+		CricketBattingPositionTailender,
+	}
+}
+
+func (e CricketBattingPosition) IsValid() error {
+	switch e {
+	case CricketBattingPositionOpeningBatsman, CricketBattingPositionTopOrder, CricketBattingPositionMiddleOrder, CricketBattingPositionLowerMiddleOrder, CricketBattingPositionTailender:
+		return nil
+	default:
+		return errors.New("enum is not valid")
+	}
+}
+
+func (e CricketBattingPosition) String() string {
+	return string(e)
+}
+
+type CricketBowlerType string
+
+// Enum values for CricketBowlerType
+const (
+	CricketBowlerTypeFastBowler       CricketBowlerType = "Fast Bowler"
+	CricketBowlerTypeMediumFastBowler CricketBowlerType = "Medium Fast Bowler"
+	CricketBowlerTypeMediumPacer      CricketBowlerType = "Medium Pacer"
+	CricketBowlerTypeSpinBowler       CricketBowlerType = "Spin Bowler"
+	CricketBowlerTypeLegSpinner       CricketBowlerType = "Leg Spinner"
+	CricketBowlerTypeOFFSpinner       CricketBowlerType = "Off Spinner"
+	CricketBowlerTypeChinaMen         CricketBowlerType = "ChinaMen"
+)
+
+func AllCricketBowlerType() []CricketBowlerType {
+	return []CricketBowlerType{
+		CricketBowlerTypeFastBowler,
+		CricketBowlerTypeMediumFastBowler,
+		CricketBowlerTypeMediumPacer,
+		CricketBowlerTypeSpinBowler,
+		CricketBowlerTypeLegSpinner,
+		CricketBowlerTypeOFFSpinner,
+		CricketBowlerTypeChinaMen,
+	}
+}
+
+func (e CricketBowlerType) IsValid() error {
+	switch e {
+	case CricketBowlerTypeFastBowler, CricketBowlerTypeMediumFastBowler, CricketBowlerTypeMediumPacer, CricketBowlerTypeSpinBowler, CricketBowlerTypeLegSpinner, CricketBowlerTypeOFFSpinner, CricketBowlerTypeChinaMen:
+		return nil
+	default:
+		return errors.New("enum is not valid")
+	}
+}
+
+func (e CricketBowlerType) String() string {
+	return string(e)
+}
+
+type CricketFieldingPosition string
+
+// Enum values for CricketFieldingPosition
+const (
+	CricketFieldingPositionSlip          CricketFieldingPosition = "Slip"
+	CricketFieldingPositionGully         CricketFieldingPosition = "Gully"
+	CricketFieldingPositionThirdMan      CricketFieldingPosition = "Third Man"
+	CricketFieldingPositionFineLeg       CricketFieldingPosition = "Fine Leg"
+	CricketFieldingPositionDeepSquareLeg CricketFieldingPosition = "Deep Square Leg"
+	CricketFieldingPositionDeepMidwicket CricketFieldingPosition = "Deep Midwicket"
+	CricketFieldingPositionLongON        CricketFieldingPosition = "Long On"
+	CricketFieldingPositionLongOFF       CricketFieldingPosition = "Long Off"
+	CricketFieldingPositionCover         CricketFieldingPosition = "Cover"
+	CricketFieldingPositionExtraCover    CricketFieldingPosition = "Extra Cover"
+	CricketFieldingPositionPoint         CricketFieldingPosition = "Point"
+	CricketFieldingPositionSquareLeg     CricketFieldingPosition = "Square Leg"
+	CricketFieldingPositionMidON         CricketFieldingPosition = "Mid On"
+	CricketFieldingPositionMidOFF        CricketFieldingPosition = "Mid Off"
+	CricketFieldingPositionMidwicket     CricketFieldingPosition = "Midwicket"
+	CricketFieldingPositionShortLeg      CricketFieldingPosition = "Short Leg"
+	CricketFieldingPositionLegSlip       CricketFieldingPosition = "Leg Slip"
+	CricketFieldingPositionShortFineLeg  CricketFieldingPosition = "Short Fine Leg"
+)
+
+func AllCricketFieldingPosition() []CricketFieldingPosition {
+	return []CricketFieldingPosition{
+		CricketFieldingPositionSlip,
+		CricketFieldingPositionGully,
+		CricketFieldingPositionThirdMan,
+		CricketFieldingPositionFineLeg,
+		CricketFieldingPositionDeepSquareLeg,
+		CricketFieldingPositionDeepMidwicket,
+		CricketFieldingPositionLongON,
+		CricketFieldingPositionLongOFF,
+		CricketFieldingPositionCover,
+		CricketFieldingPositionExtraCover,
+		CricketFieldingPositionPoint,
+		CricketFieldingPositionSquareLeg,
+		CricketFieldingPositionMidON,
+		CricketFieldingPositionMidOFF,
+		CricketFieldingPositionMidwicket,
+		CricketFieldingPositionShortLeg,
+		CricketFieldingPositionLegSlip,
+		CricketFieldingPositionShortFineLeg,
+	}
+}
+
+func (e CricketFieldingPosition) IsValid() error {
+	switch e {
+	case CricketFieldingPositionSlip, CricketFieldingPositionGully, CricketFieldingPositionThirdMan, CricketFieldingPositionFineLeg, CricketFieldingPositionDeepSquareLeg, CricketFieldingPositionDeepMidwicket, CricketFieldingPositionLongON, CricketFieldingPositionLongOFF, CricketFieldingPositionCover, CricketFieldingPositionExtraCover, CricketFieldingPositionPoint, CricketFieldingPositionSquareLeg, CricketFieldingPositionMidON, CricketFieldingPositionMidOFF, CricketFieldingPositionMidwicket, CricketFieldingPositionShortLeg, CricketFieldingPositionLegSlip, CricketFieldingPositionShortFineLeg:
+		return nil
+	default:
+		return errors.New("enum is not valid")
+	}
+}
+
+func (e CricketFieldingPosition) String() string {
+	return string(e)
+}

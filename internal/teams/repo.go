@@ -1,4 +1,4 @@
-package repositories
+package teams
 
 import (
 	"context"
@@ -7,29 +7,34 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
-	"github.com/sports-dynamics/cricket-fever/internal/requests"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 type CreateTeamRepo interface {
-	Create(ctx context.Context, req requests.CreateTeamRequestParams) (models.CricketTeam, error)
+	Create(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error)
 	// AddPlayers(ctx context.Context)
 }
 
-type CreateTeam struct {
+type Repo struct {
 	db *sql.DB
 }
 
 func NewCreateTeamRepo(db *sql.DB) CreateTeamRepo {
-	return &CreateTeam{db: db}
+	return &Repo{db: db}
 }
 
-func (ct CreateTeam) Create(ctx context.Context, req requests.CreateTeamRequestParams) (models.CricketTeam, error) {
+func (ct Repo) Create(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error) {
 
 	new_team := models.CricketTeam{
-		TeamUUID:    uuid.New().String(),
-		TeamName:    req.Name,
-		TeamCountry: req.Country,
+		TeamUUID:      uuid.New().String(),
+		TeamName:      req.Name,
+		TeamCountry:   req.Country,
+		TeamState:     "karnataka",
+		TeamCity:      "bangalore",
+		TeamCoachID:   null.IntFrom(2),
+		CaptainID:     null.IntFrom(3),
+		ViceCaptainID: null.IntFrom(4),
 	}
 
 	if err := new_team.Insert(context.Background(), ct.db, boil.Infer()); err != nil {

@@ -1,14 +1,21 @@
 package app
 
 import (
+	"context"
+	"database/sql"
+	"fmt"
 	"net/http"
+
+	_ "github.com/lib/pq"
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
 	auth "github.com/sports-dynamics/cricket-fever/internal/middleware"
+	"github.com/sports-dynamics/cricket-fever/internal/modo"
 	"github.com/sports-dynamics/cricket-fever/internal/repositories"
 	"github.com/sports-dynamics/cricket-fever/internal/services"
+	"go.uber.org/zap"
 )
 
 func newRouter(config Config) http.Handler {
@@ -21,31 +28,41 @@ func newRouter(config Config) http.Handler {
 
 		r.Use(auth.AuthMiddleware(config.ValidAPIToken))
 
-		teamRepo := repositories.TeamRepo{}
+		db, err := NewPostgresDBConn()
+		if err != nil {
+			modo.Logger(context.Background()).Error("failed to connect with postres db", zap.Error(err))
+			fmt.Println(" err : ", err)
+		}
+
+		teamRepo := repositories.NewCreateTeamRepo(db)
 		teamService := services.NewTeamService(teamRepo)
 
 		r.Route("/team", func(r chi.Router) {
 			r.Post("/", handlers.NewCreateTeamHandler(teamService))
 		})
-
-		// r.Route("/accounts/{accountUUID}/sub_accounts", func(r chi.Router) {
-		// 	r.Post("/", handlers.NewCreateSubAccountHandler(sovService))
-		// 	r.Get("/", handlers.NewListSubAccountsByAccountIDHandler(subAccountRepo))
-		// 	r.Get("/{subAccountUUID}", handlers.NewGetSubAccountByIdHandler(subAccountRepo))
-		// })
-
-		// r.Route("/records", func(r chi.Router) {
-		// 	r.Post("/", handlers.NewCreateRecordHandler(sovService))
-		// 	r.Get("/{recordUUID}", handlers.NewGetRecordByIdHandler(recordRepo))
-		// })
-
-		// r.Route("/disbursements", func(r chi.Router) {
-		// 	r.Post("/", handlers.NewCreateDisbursementHandler(disbursementService))
-		// 	r.Get("/{disbursementUUID}", handlers.NewGetDisbursementByIdHandler(disbursementRepo))
-		// 	r.Patch("/{disbursementUUID}", handlers.NewProcessDisbursementHandler(disbursementService))
-		// })
-
 	})
 
 	return r
+}
+
+func NewPostgresDBConn() (*sql.DB, error) {
+
+	// Replace the connection string with your PostgreSQL database connection details
+	connStr := "user=dev password=strongone dbname=postgres sslmode=require"
+
+	// Open a connection to the database
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		panic(err)
+	}
+
+	// Test the connection
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Successfully connected to the PostgreSQL database!")
+
+	return db, nil
 }

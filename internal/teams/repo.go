@@ -13,14 +13,13 @@ import (
 
 type CreateTeamRepo interface {
 	Create(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error)
-	// AddPlayers(ctx context.Context)
 }
 
 type Repo struct {
 	db *sql.DB
 }
 
-func NewCreateTeamRepo(db *sql.DB) CreateTeamRepo {
+func NewTeamRepo(db *sql.DB) CreateTeamRepo {
 	return &Repo{db: db}
 }
 

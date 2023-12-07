@@ -10,7 +10,7 @@ type CreateTeamStub struct {
 	CreateTeamFunc func(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error)
 }
 
-var _ Team = (*CreateTeamStub)(nil)
+var _ TeamService = (*CreateTeamStub)(nil)
 
 func (s CreateTeamStub) CreateTeam(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error) {
 	if s.CreateTeamFunc != nil {

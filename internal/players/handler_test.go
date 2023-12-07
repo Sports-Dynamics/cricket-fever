@@ -1,4 +1,4 @@
-package teams
+package players
 
 import (
 	"bytes"
@@ -8,28 +8,20 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/google/uuid"
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
 	"github.com/stretchr/testify/assert"
-	"github.com/volatiletech/null/v8"
 )
 
 func Test_createTeam_ServeHTTP(t *testing.T) {
 
-	createTeam := func(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error) {
-		return models.CricketTeam{
-			TeamID:      1,
-			TeamName:    req.Name,
-			TeamUUID:    uuid.New().String(),
-			TeamCountry: req.Country,
-			TeamState:   "karnataka",
-			TeamCity:    "bangalore",
-			TeamCoachID: null.IntFrom(1),
-			CaptainID:   null.IntFrom(2),
+	createNewPlayer := func(ctx context.Context, req CreateTeamRequestParams) (models.CricketPlayer, error) {
+		return models.CricketPlayer{
+			PlayerID:   1,
+			PlayerName: "goldy",
 		}, nil
 	}
 
-	handler := NewTeamHandler(CreateTeamStub{CreateTeamFunc: createTeam})
+	handler := NewCreateNewPlayerHandler(CreateNewPlayerStub{CreateNewPlayerFunc: createNewPlayer})
 
 	requestBody := CreateTeamRequestParams{Name: "goldy", Country: "india"}
 

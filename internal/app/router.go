@@ -1,7 +1,6 @@
 package app
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"net/http"
@@ -12,9 +11,8 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
 	auth "github.com/sports-dynamics/cricket-fever/internal/middleware"
-	"github.com/sports-dynamics/cricket-fever/internal/modo"
+	"github.com/sports-dynamics/cricket-fever/internal/players"
 	"github.com/sports-dynamics/cricket-fever/internal/teams"
-	"go.uber.org/zap"
 )
 
 func newRouter(config Config) http.Handler {
@@ -29,16 +27,22 @@ func newRouter(config Config) http.Handler {
 
 		db, err := NewPostgresDBConn()
 		if err != nil {
-			modo.Logger(context.Background()).Error("failed to connect with postres db", zap.Error(err))
-			fmt.Println(" err : ", err)
+			fmt.Println("failed to connect with postgres db : ", err)
+			panic(err)
 		}
 
-		teamRepo := teams.NewCreateTeamRepo(db)
+		teamRepo := teams.NewTeamRepo(db)
 		teamService := teams.NewTeamService(teamRepo)
-
 		r.Route("/team", func(r chi.Router) {
-			r.Post("/", teams.NewCreateTeamHandler(teamService))
+			r.Post("/", teams.NewTeamHandler(teamService))
 		})
+
+		playerRepo := players.NewPlayerRepo(db)
+		playerService := players.NewPlayerService(playerRepo)
+		r.Route("/player", func(r chi.Router) {
+			r.Post("/", players.NewCreateNewPlayerHandler(playerService))
+		})
+
 	})
 
 	return r

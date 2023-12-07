@@ -16,12 +16,12 @@ import (
 
 func Test_createTeam_ServeHTTP(t *testing.T) {
 
-	createTeam := func(ctx context.Context, req CreateTeamRequestParams) (models.CricketTeam, error) {
-		return models.CricketTeam{
+	createTeam := func(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error) {
+		return &models.CricketTeam{
 			TeamID:      1,
-			TeamName:    req.Name,
+			TeamName:    req.TeamName,
 			TeamUUID:    uuid.New().String(),
-			TeamCountry: req.Country,
+			TeamCountry: req.TeamCountry,
 			TeamState:   "karnataka",
 			TeamCity:    "bangalore",
 			TeamCoachID: null.IntFrom(1),
@@ -29,9 +29,9 @@ func Test_createTeam_ServeHTTP(t *testing.T) {
 		}, nil
 	}
 
-	handler := NewTeamHandler(CreateTeamStub{CreateTeamFunc: createTeam})
+	handler := CreateTeamHandler(CreateTeamStub{CreateFunc: createTeam})
 
-	requestBody := CreateTeamRequestParams{Name: "goldy", Country: "india"}
+	requestBody := CreateTeamRequestParams{models.CricketTeam{TeamUUID: "goldy", TeamName: "goldy"}}
 
 	requestJSON, _ := json.Marshal(requestBody)
 	req, err := http.NewRequest("POST", "/team", bytes.NewReader(requestJSON))

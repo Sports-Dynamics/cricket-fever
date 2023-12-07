@@ -1,15 +1,15 @@
 package teams
 
+import "github.com/sports-dynamics/cricket-fever/internal/db/models"
+
 type CreateTeamRequestParams struct {
-	Name            string `json:"team_name"`
-	Country         string `json:"team_country"`
-	State           string `json:"team_state"`
-	City            string `json:"team_city"`
-	CaptainUUID     string `json:"team_captain"`
-	ViceCaptainUUID string `json:"team_vice_captain"`
-	TeamCoachUUID   string `json:"team_coach"`
+	models.CricketTeam
 }
 
 func (t *CreateTeamRequestParams) Validate() error {
 	return nil
 }
+
+const (
+	TeamID string = "teamID"
+)

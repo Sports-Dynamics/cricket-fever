@@ -34,13 +34,16 @@ func newRouter(config Config) http.Handler {
 		teamRepo := teams.NewTeamRepo(db)
 		teamService := teams.NewTeamService(teamRepo)
 		r.Route("/team", func(r chi.Router) {
-			r.Post("/", teams.NewTeamHandler(teamService))
+			r.Post("/", teams.CreateTeamHandler(teamService))
+			r.Get("/"+teams.TeamID, teams.GetTeamHandler(teamService))
+			r.Put("/"+teams.TeamID, teams.UpdateTeamHandler(teamService))
+			r.Delete("/"+teams.TeamID, teams.DeleteTeamHandler(teamService))
 		})
 
 		playerRepo := players.NewPlayerRepo(db)
 		playerService := players.NewPlayerService(playerRepo)
 		r.Route("/player", func(r chi.Router) {
-			r.Post("/", players.NewCreateNewPlayerHandler(playerService))
+			r.Post("/", players.CreatePlayerHandler(playerService))
 		})
 
 	})

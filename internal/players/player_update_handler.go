@@ -1,9 +1,8 @@
-package teams
+package players
 
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
@@ -11,19 +10,17 @@ import (
 	"go.uber.org/zap"
 )
 
-type createTeam struct {
-	service TeamService
+type updatePlayer struct {
+	service PlayerService
 }
 
-func NewTeamHandler(service TeamService) http.HandlerFunc {
+func UpdatePlayerHandler(service PlayerService) http.HandlerFunc {
 
-	return createTeam{service: service}.ServeHTTP
+	return createPlayer{service: service}.ServeHTTP
 }
 
-func (t createTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	var request CreateTeamRequestParams
-
-	fmt.Println(" check 1")
+func (t updatePlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	var request *PlayerRequestParams
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&request); err != nil {
@@ -37,15 +34,13 @@ func (t createTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	team, err := t.service.CreateTeam(context.Background(), request)
+	team, err := t.service.Update(context.Background(), request)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not create account.", zap.Error(err))
 		handlers.RespondWithError(r.Context(), w, err, http.StatusInternalServerError)
 		return
 	}
-
-	fmt.Println(" check 2")
 
 	handlers.RespondWithSuccess(r.Context(), w, team, http.StatusCreated)
 }

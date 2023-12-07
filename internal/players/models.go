@@ -4,10 +4,14 @@ import (
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
 )
 
-type NewPlayerRequestParams struct {
+type PlayerRequestParams struct {
 	models.CricketPlayer
 }
 
-func (t *NewPlayerRequestParams) Validate() error {
+func (t *PlayerRequestParams) Validate() error {
 	return nil
 }
+
+const (
+	PlayerUUID string = "PlayerUUID"
+)

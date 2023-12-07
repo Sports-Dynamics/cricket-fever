@@ -14,19 +14,19 @@ import (
 
 func Test_createTeam_ServeHTTP(t *testing.T) {
 
-	createNewPlayer := func(ctx context.Context, req CreateTeamRequestParams) (models.CricketPlayer, error) {
-		return models.CricketPlayer{
+	createPlayer := func(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error) {
+		return &models.CricketPlayer{
 			PlayerID:   1,
 			PlayerName: "goldy",
 		}, nil
 	}
 
-	handler := NewCreateNewPlayerHandler(CreateNewPlayerStub{CreateNewPlayerFunc: createNewPlayer})
+	handler := CreatePlayerHandler(PlayerStubs{CreatFunc: createPlayer})
 
-	requestBody := CreateTeamRequestParams{Name: "goldy", Country: "india"}
+	requestBody := PlayerRequestParams{models.CricketPlayer{PlayerName: "goldy", PlayerMobile: 123456789, PlayerEmail: "abc@gmail.com"}}
 
 	requestJSON, _ := json.Marshal(requestBody)
-	req, err := http.NewRequest("POST", "/team", bytes.NewReader(requestJSON))
+	req, err := http.NewRequest("POST", "/player", bytes.NewReader(requestJSON))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -35,10 +35,10 @@ func Test_createTeam_ServeHTTP(t *testing.T) {
 	handler.ServeHTTP(rr, req)
 
 	assert.Equal(t, http.StatusCreated, rr.Code)
-	var responseAccount models.CricketTeam
-	err = json.Unmarshal(rr.Body.Bytes(), &responseAccount)
+	var response models.CricketPlayer
+	err = json.Unmarshal(rr.Body.Bytes(), &response)
 	assert.NoError(t, err)
 
-	assert.Equal(t, "goldy", responseAccount.TeamName)
+	assert.Equal(t, "goldy", response.PlayerName)
 
 }

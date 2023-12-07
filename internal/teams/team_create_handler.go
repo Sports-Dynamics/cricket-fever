@@ -1,9 +1,8 @@
-package players
+package teams
 
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
@@ -11,20 +10,17 @@ import (
 	"go.uber.org/zap"
 )
 
-type createNewPlayer struct {
-	service CreatePlayerService
+type createTeam struct {
+	service TeamService
 }
 
-func NewCreateNewPlayerHandler(service CreatePlayerService) http.HandlerFunc {
+func CreateTeamHandler(service TeamService) http.HandlerFunc {
 
-	return createNewPlayer{service: service}.ServeHTTP
+	return createTeam{service: service}.ServeHTTP
 }
 
-type CreateNewPlayer struct {
-}
-
-func (t createNewPlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	var request NewPlayerRequestParams
+func (t createTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	var request *CreateTeamRequestParams
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&request); err != nil {
@@ -33,14 +29,12 @@ func (t createNewPlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	fmt.Println(" dumping value at handler level : ", request)
-
 	if err := request.Validate(); err != nil {
 		handlers.RespondWithError(r.Context(), w, err, http.StatusUnprocessableEntity)
 		return
 	}
 
-	team, err := t.service.CreateNewPlayer(context.Background(), request)
+	team, err := t.service.Create(context.Background(), request)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not create account.", zap.Error(err))

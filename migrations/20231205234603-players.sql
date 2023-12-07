@@ -56,10 +56,10 @@ CREATE TABLE cricket_players (
     player_email VARCHAR(50) UNIQUE NOT NULL,
     player_mobile INT UNIQUE NOT NULL,
     player_picture BYTEA ,
-    player_role cricket_role , 
-    batting_positions cricket_batting_position,
-    bowler_types cricket_bowler_type, 
-    fielding_positions cricket_fielding_position
+    player_role cricket_role NOT NULL , 
+    batting_positions cricket_batting_position NOT NULL,
+    bowler_types cricket_bowler_type NOT NULL, 
+    fielding_positions cricket_fielding_position NOT NULL
 );
 
 CREATE INDEX idx_cricket_players_player_name ON cricket_players (player_name);

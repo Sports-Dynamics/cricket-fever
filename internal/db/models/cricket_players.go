@@ -24,15 +24,15 @@ import (
 
 // CricketPlayer is an object representing the database table.
 type CricketPlayer struct {
-	PlayerID          int                         `boil:"player_id" json:"player_id" toml:"player_id" yaml:"player_id"`
-	PlayerName        string                      `boil:"player_name" json:"player_name" toml:"player_name" yaml:"player_name"`
-	PlayerEmail       string                      `boil:"player_email" json:"player_email" toml:"player_email" yaml:"player_email"`
-	PlayerMobile      int                         `boil:"player_mobile" json:"player_mobile" toml:"player_mobile" yaml:"player_mobile"`
-	PlayerPicture     null.Bytes                  `boil:"player_picture" json:"player_picture,omitempty" toml:"player_picture" yaml:"player_picture,omitempty"`
-	PlayerRole        NullCricketRole             `boil:"player_role" json:"player_role,omitempty" toml:"player_role" yaml:"player_role,omitempty"`
-	BattingPositions  NullCricketBattingPosition  `boil:"batting_positions" json:"batting_positions,omitempty" toml:"batting_positions" yaml:"batting_positions,omitempty"`
-	BowlerTypes       NullCricketBowlerType       `boil:"bowler_types" json:"bowler_types,omitempty" toml:"bowler_types" yaml:"bowler_types,omitempty"`
-	FieldingPositions NullCricketFieldingPosition `boil:"fielding_positions" json:"fielding_positions,omitempty" toml:"fielding_positions" yaml:"fielding_positions,omitempty"`
+	PlayerID          int                     `boil:"player_id" json:"player_id" toml:"player_id" yaml:"player_id"`
+	PlayerName        string                  `boil:"player_name" json:"player_name" toml:"player_name" yaml:"player_name"`
+	PlayerEmail       string                  `boil:"player_email" json:"player_email" toml:"player_email" yaml:"player_email"`
+	PlayerMobile      int                     `boil:"player_mobile" json:"player_mobile" toml:"player_mobile" yaml:"player_mobile"`
+	PlayerPicture     null.Bytes              `boil:"player_picture" json:"player_picture,omitempty" toml:"player_picture" yaml:"player_picture,omitempty"`
+	PlayerRole        CricketRole             `boil:"player_role" json:"player_role" toml:"player_role" yaml:"player_role"`
+	BattingPositions  CricketBattingPosition  `boil:"batting_positions" json:"batting_positions" toml:"batting_positions" yaml:"batting_positions"`
+	BowlerTypes       CricketBowlerType       `boil:"bowler_types" json:"bowler_types" toml:"bowler_types" yaml:"bowler_types"`
+	FieldingPositions CricketFieldingPosition `boil:"fielding_positions" json:"fielding_positions" toml:"fielding_positions" yaml:"fielding_positions"`
 
 	R *cricketPlayerR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L cricketPlayerL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -158,34 +158,34 @@ func (w whereHelpernull_Bytes) GTE(x null.Bytes) qm.QueryMod {
 func (w whereHelpernull_Bytes) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
 func (w whereHelpernull_Bytes) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
 
-type whereHelperNullCricketRole struct{ field string }
+type whereHelperCricketRole struct{ field string }
 
-func (w whereHelperNullCricketRole) EQ(x NullCricketRole) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
+func (w whereHelperCricketRole) EQ(x CricketRole) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.EQ, x)
 }
-func (w whereHelperNullCricketRole) NEQ(x NullCricketRole) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
+func (w whereHelperCricketRole) NEQ(x CricketRole) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.NEQ, x)
 }
-func (w whereHelperNullCricketRole) LT(x NullCricketRole) qm.QueryMod {
+func (w whereHelperCricketRole) LT(x CricketRole) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LT, x)
 }
-func (w whereHelperNullCricketRole) LTE(x NullCricketRole) qm.QueryMod {
+func (w whereHelperCricketRole) LTE(x CricketRole) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LTE, x)
 }
-func (w whereHelperNullCricketRole) GT(x NullCricketRole) qm.QueryMod {
+func (w whereHelperCricketRole) GT(x CricketRole) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GT, x)
 }
-func (w whereHelperNullCricketRole) GTE(x NullCricketRole) qm.QueryMod {
+func (w whereHelperCricketRole) GTE(x CricketRole) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
-func (w whereHelperNullCricketRole) IN(slice []NullCricketRole) qm.QueryMod {
+func (w whereHelperCricketRole) IN(slice []CricketRole) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelperNullCricketRole) NIN(slice []NullCricketRole) qm.QueryMod {
+func (w whereHelperCricketRole) NIN(slice []CricketRole) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -193,37 +193,34 @@ func (w whereHelperNullCricketRole) NIN(slice []NullCricketRole) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-func (w whereHelperNullCricketRole) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelperNullCricketRole) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+type whereHelperCricketBattingPosition struct{ field string }
 
-type whereHelperNullCricketBattingPosition struct{ field string }
-
-func (w whereHelperNullCricketBattingPosition) EQ(x NullCricketBattingPosition) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
+func (w whereHelperCricketBattingPosition) EQ(x CricketBattingPosition) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.EQ, x)
 }
-func (w whereHelperNullCricketBattingPosition) NEQ(x NullCricketBattingPosition) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
+func (w whereHelperCricketBattingPosition) NEQ(x CricketBattingPosition) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.NEQ, x)
 }
-func (w whereHelperNullCricketBattingPosition) LT(x NullCricketBattingPosition) qm.QueryMod {
+func (w whereHelperCricketBattingPosition) LT(x CricketBattingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LT, x)
 }
-func (w whereHelperNullCricketBattingPosition) LTE(x NullCricketBattingPosition) qm.QueryMod {
+func (w whereHelperCricketBattingPosition) LTE(x CricketBattingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LTE, x)
 }
-func (w whereHelperNullCricketBattingPosition) GT(x NullCricketBattingPosition) qm.QueryMod {
+func (w whereHelperCricketBattingPosition) GT(x CricketBattingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GT, x)
 }
-func (w whereHelperNullCricketBattingPosition) GTE(x NullCricketBattingPosition) qm.QueryMod {
+func (w whereHelperCricketBattingPosition) GTE(x CricketBattingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
-func (w whereHelperNullCricketBattingPosition) IN(slice []NullCricketBattingPosition) qm.QueryMod {
+func (w whereHelperCricketBattingPosition) IN(slice []CricketBattingPosition) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelperNullCricketBattingPosition) NIN(slice []NullCricketBattingPosition) qm.QueryMod {
+func (w whereHelperCricketBattingPosition) NIN(slice []CricketBattingPosition) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -231,41 +228,34 @@ func (w whereHelperNullCricketBattingPosition) NIN(slice []NullCricketBattingPos
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-func (w whereHelperNullCricketBattingPosition) IsNull() qm.QueryMod {
-	return qmhelper.WhereIsNull(w.field)
-}
-func (w whereHelperNullCricketBattingPosition) IsNotNull() qm.QueryMod {
-	return qmhelper.WhereIsNotNull(w.field)
-}
+type whereHelperCricketBowlerType struct{ field string }
 
-type whereHelperNullCricketBowlerType struct{ field string }
-
-func (w whereHelperNullCricketBowlerType) EQ(x NullCricketBowlerType) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
+func (w whereHelperCricketBowlerType) EQ(x CricketBowlerType) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.EQ, x)
 }
-func (w whereHelperNullCricketBowlerType) NEQ(x NullCricketBowlerType) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
+func (w whereHelperCricketBowlerType) NEQ(x CricketBowlerType) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.NEQ, x)
 }
-func (w whereHelperNullCricketBowlerType) LT(x NullCricketBowlerType) qm.QueryMod {
+func (w whereHelperCricketBowlerType) LT(x CricketBowlerType) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LT, x)
 }
-func (w whereHelperNullCricketBowlerType) LTE(x NullCricketBowlerType) qm.QueryMod {
+func (w whereHelperCricketBowlerType) LTE(x CricketBowlerType) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LTE, x)
 }
-func (w whereHelperNullCricketBowlerType) GT(x NullCricketBowlerType) qm.QueryMod {
+func (w whereHelperCricketBowlerType) GT(x CricketBowlerType) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GT, x)
 }
-func (w whereHelperNullCricketBowlerType) GTE(x NullCricketBowlerType) qm.QueryMod {
+func (w whereHelperCricketBowlerType) GTE(x CricketBowlerType) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
-func (w whereHelperNullCricketBowlerType) IN(slice []NullCricketBowlerType) qm.QueryMod {
+func (w whereHelperCricketBowlerType) IN(slice []CricketBowlerType) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelperNullCricketBowlerType) NIN(slice []NullCricketBowlerType) qm.QueryMod {
+func (w whereHelperCricketBowlerType) NIN(slice []CricketBowlerType) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -273,51 +263,39 @@ func (w whereHelperNullCricketBowlerType) NIN(slice []NullCricketBowlerType) qm.
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-func (w whereHelperNullCricketBowlerType) IsNull() qm.QueryMod { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelperNullCricketBowlerType) IsNotNull() qm.QueryMod {
-	return qmhelper.WhereIsNotNull(w.field)
-}
+type whereHelperCricketFieldingPosition struct{ field string }
 
-type whereHelperNullCricketFieldingPosition struct{ field string }
-
-func (w whereHelperNullCricketFieldingPosition) EQ(x NullCricketFieldingPosition) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
+func (w whereHelperCricketFieldingPosition) EQ(x CricketFieldingPosition) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.EQ, x)
 }
-func (w whereHelperNullCricketFieldingPosition) NEQ(x NullCricketFieldingPosition) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
+func (w whereHelperCricketFieldingPosition) NEQ(x CricketFieldingPosition) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.NEQ, x)
 }
-func (w whereHelperNullCricketFieldingPosition) LT(x NullCricketFieldingPosition) qm.QueryMod {
+func (w whereHelperCricketFieldingPosition) LT(x CricketFieldingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LT, x)
 }
-func (w whereHelperNullCricketFieldingPosition) LTE(x NullCricketFieldingPosition) qm.QueryMod {
+func (w whereHelperCricketFieldingPosition) LTE(x CricketFieldingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.LTE, x)
 }
-func (w whereHelperNullCricketFieldingPosition) GT(x NullCricketFieldingPosition) qm.QueryMod {
+func (w whereHelperCricketFieldingPosition) GT(x CricketFieldingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GT, x)
 }
-func (w whereHelperNullCricketFieldingPosition) GTE(x NullCricketFieldingPosition) qm.QueryMod {
+func (w whereHelperCricketFieldingPosition) GTE(x CricketFieldingPosition) qm.QueryMod {
 	return qmhelper.Where(w.field, qmhelper.GTE, x)
 }
-func (w whereHelperNullCricketFieldingPosition) IN(slice []NullCricketFieldingPosition) qm.QueryMod {
+func (w whereHelperCricketFieldingPosition) IN(slice []CricketFieldingPosition) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelperNullCricketFieldingPosition) NIN(slice []NullCricketFieldingPosition) qm.QueryMod {
+func (w whereHelperCricketFieldingPosition) NIN(slice []CricketFieldingPosition) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
-}
-
-func (w whereHelperNullCricketFieldingPosition) IsNull() qm.QueryMod {
-	return qmhelper.WhereIsNull(w.field)
-}
-func (w whereHelperNullCricketFieldingPosition) IsNotNull() qm.QueryMod {
-	return qmhelper.WhereIsNotNull(w.field)
 }
 
 var CricketPlayerWhere = struct {
@@ -326,20 +304,20 @@ var CricketPlayerWhere = struct {
 	PlayerEmail       whereHelperstring
 	PlayerMobile      whereHelperint
 	PlayerPicture     whereHelpernull_Bytes
-	PlayerRole        whereHelperNullCricketRole
-	BattingPositions  whereHelperNullCricketBattingPosition
-	BowlerTypes       whereHelperNullCricketBowlerType
-	FieldingPositions whereHelperNullCricketFieldingPosition
+	PlayerRole        whereHelperCricketRole
+	BattingPositions  whereHelperCricketBattingPosition
+	BowlerTypes       whereHelperCricketBowlerType
+	FieldingPositions whereHelperCricketFieldingPosition
 }{
 	PlayerID:          whereHelperint{field: "\"cricket_players\".\"player_id\""},
 	PlayerName:        whereHelperstring{field: "\"cricket_players\".\"player_name\""},
 	PlayerEmail:       whereHelperstring{field: "\"cricket_players\".\"player_email\""},
 	PlayerMobile:      whereHelperint{field: "\"cricket_players\".\"player_mobile\""},
 	PlayerPicture:     whereHelpernull_Bytes{field: "\"cricket_players\".\"player_picture\""},
-	PlayerRole:        whereHelperNullCricketRole{field: "\"cricket_players\".\"player_role\""},
-	BattingPositions:  whereHelperNullCricketBattingPosition{field: "\"cricket_players\".\"batting_positions\""},
-	BowlerTypes:       whereHelperNullCricketBowlerType{field: "\"cricket_players\".\"bowler_types\""},
-	FieldingPositions: whereHelperNullCricketFieldingPosition{field: "\"cricket_players\".\"fielding_positions\""},
+	PlayerRole:        whereHelperCricketRole{field: "\"cricket_players\".\"player_role\""},
+	BattingPositions:  whereHelperCricketBattingPosition{field: "\"cricket_players\".\"batting_positions\""},
+	BowlerTypes:       whereHelperCricketBowlerType{field: "\"cricket_players\".\"bowler_types\""},
+	FieldingPositions: whereHelperCricketFieldingPosition{field: "\"cricket_players\".\"fielding_positions\""},
 }
 
 // CricketPlayerRels is where relationship names are stored.
@@ -371,8 +349,8 @@ type cricketPlayerL struct{}
 
 var (
 	cricketPlayerAllColumns            = []string{"player_id", "player_name", "player_email", "player_mobile", "player_picture", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
-	cricketPlayerColumnsWithoutDefault = []string{"player_name", "player_email", "player_mobile"}
-	cricketPlayerColumnsWithDefault    = []string{"player_id", "player_picture", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
+	cricketPlayerColumnsWithoutDefault = []string{"player_name", "player_email", "player_mobile", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
+	cricketPlayerColumnsWithDefault    = []string{"player_id", "player_picture"}
 	cricketPlayerPrimaryKeyColumns     = []string{"player_id"}
 	cricketPlayerGeneratedColumns      = []string{}
 )

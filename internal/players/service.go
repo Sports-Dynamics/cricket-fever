@@ -6,21 +6,35 @@ import (
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
 )
 
-type CreatePlayerService interface {
-	CreateNewPlayer(ctx context.Context, req NewPlayerRequestParams) (models.CricketPlayer, error)
+type PlayerService interface {
+	Create(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error)
+	Get(ctx context.Context, playerUUID string) (*models.CricketPlayer, error)
+	Update(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error)
+	Delete(ctx context.Context, playerUUID string) (*models.CricketPlayer, error)
 }
 
 type newPlayer struct {
-	newPlayerRepo CreatePlayerRepo
+	repo PlayerRepo
 }
 
-func NewPlayerService(repo CreatePlayerRepo) CreatePlayerService {
-	return &newPlayer{newPlayerRepo: repo}
+func NewPlayerService(repo PlayerRepo) PlayerService {
+	return &newPlayer{repo: repo}
 }
 
-func (t *newPlayer) CreateNewPlayer(ctx context.Context, req NewPlayerRequestParams) (models.CricketPlayer, error) {
+func (t *newPlayer) Create(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error) {
 
-	newTeam, err := t.newPlayerRepo.Create(ctx, req)
+	newPlayer, err := t.repo.Create(ctx, req)
+	if err != nil {
+		return newPlayer, err
+	}
+
+	return newPlayer, nil
+
+}
+func (t *newPlayer) Get(ctx context.Context, playerUUID string) (*models.CricketPlayer, error) {
+
+	// TO-DO fetch UUID for the player
+	newTeam, err := t.repo.Get(ctx, 1)
 	if err != nil {
 		return newTeam, err
 	}
@@ -29,6 +43,25 @@ func (t *newPlayer) CreateNewPlayer(ctx context.Context, req NewPlayerRequestPar
 
 }
 
-func (t *newPlayer) JoinTeam(ctx context.Context, teamID, playerID int) {
+func (t *newPlayer) Update(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error) {
+
+	newTeam, err := t.repo.Update(ctx, req)
+	if err != nil {
+		return newTeam, err
+	}
+
+	return newTeam, nil
+
+}
+
+func (t *newPlayer) Delete(ctx context.Context, playerUUID string) (*models.CricketPlayer, error) {
+
+	// TO-DO fetch UUID for the player
+	newTeam, err := t.repo.Delete(ctx, 1)
+	if err != nil {
+		return newTeam, err
+	}
+
+	return newTeam, nil
 
 }

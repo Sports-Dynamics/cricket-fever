@@ -125,7 +125,7 @@ var (
 	teamPlayerAllColumns            = []string{"player_id", "team_id", "joining_date"}
 	teamPlayerColumnsWithoutDefault = []string{"player_id", "team_id", "joining_date"}
 	teamPlayerColumnsWithDefault    = []string{}
-	teamPlayerPrimaryKeyColumns     = []string{"player_id", "team_id", "joining_date"}
+	teamPlayerPrimaryKeyColumns     = []string{"player_id", "team_id"}
 	teamPlayerGeneratedColumns      = []string{}
 )
 
@@ -713,7 +713,7 @@ func (o *TeamPlayer) SetPlayer(ctx context.Context, exec boil.ContextExecutor, i
 		strmangle.SetParamNames("\"", "\"", 1, []string{"player_id"}),
 		strmangle.WhereClause("\"", "\"", 2, teamPlayerPrimaryKeyColumns),
 	)
-	values := []interface{}{related.PlayerID, o.PlayerID, o.TeamID, o.JoiningDate}
+	values := []interface{}{related.PlayerID, o.PlayerID, o.TeamID}
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -768,7 +768,7 @@ func (o *TeamPlayer) SetTeam(ctx context.Context, exec boil.ContextExecutor, ins
 		strmangle.SetParamNames("\"", "\"", 1, []string{"team_id"}),
 		strmangle.WhereClause("\"", "\"", 2, teamPlayerPrimaryKeyColumns),
 	)
-	values := []interface{}{related.TeamID, o.PlayerID, o.TeamID, o.JoiningDate}
+	values := []interface{}{related.TeamID, o.PlayerID, o.TeamID}
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -811,13 +811,13 @@ func TeamPlayers(mods ...qm.QueryMod) teamPlayerQuery {
 }
 
 // FindTeamPlayerG retrieves a single record by ID.
-func FindTeamPlayerG(ctx context.Context, playerID int, teamID int, joiningDate time.Time, selectCols ...string) (*TeamPlayer, error) {
-	return FindTeamPlayer(ctx, boil.GetContextDB(), playerID, teamID, joiningDate, selectCols...)
+func FindTeamPlayerG(ctx context.Context, playerID int, teamID int, selectCols ...string) (*TeamPlayer, error) {
+	return FindTeamPlayer(ctx, boil.GetContextDB(), playerID, teamID, selectCols...)
 }
 
 // FindTeamPlayer retrieves a single record by ID with an executor.
 // If selectCols is empty Find will return all columns.
-func FindTeamPlayer(ctx context.Context, exec boil.ContextExecutor, playerID int, teamID int, joiningDate time.Time, selectCols ...string) (*TeamPlayer, error) {
+func FindTeamPlayer(ctx context.Context, exec boil.ContextExecutor, playerID int, teamID int, selectCols ...string) (*TeamPlayer, error) {
 	teamPlayerObj := &TeamPlayer{}
 
 	sel := "*"
@@ -825,10 +825,10 @@ func FindTeamPlayer(ctx context.Context, exec boil.ContextExecutor, playerID int
 		sel = strings.Join(strmangle.IdentQuoteSlice(dialect.LQ, dialect.RQ, selectCols), ",")
 	}
 	query := fmt.Sprintf(
-		"select %s from \"team_players\" where \"player_id\"=$1 AND \"team_id\"=$2 AND \"joining_date\"=$3", sel,
+		"select %s from \"team_players\" where \"player_id\"=$1 AND \"team_id\"=$2", sel,
 	)
 
-	q := queries.Raw(query, playerID, teamID, joiningDate)
+	q := queries.Raw(query, playerID, teamID)
 
 	err := q.Bind(ctx, exec, teamPlayerObj)
 	if err != nil {
@@ -1212,7 +1212,7 @@ func (o *TeamPlayer) Delete(ctx context.Context, exec boil.ContextExecutor) (int
 	}
 
 	args := queries.ValuesFromMapping(reflect.Indirect(reflect.ValueOf(o)), teamPlayerPrimaryKeyMapping)
-	sql := "DELETE FROM \"team_players\" WHERE \"player_id\"=$1 AND \"team_id\"=$2 AND \"joining_date\"=$3"
+	sql := "DELETE FROM \"team_players\" WHERE \"player_id\"=$1 AND \"team_id\"=$2"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
@@ -1327,7 +1327,7 @@ func (o *TeamPlayer) ReloadG(ctx context.Context) error {
 // Reload refetches the object from the database
 // using the primary keys with an executor.
 func (o *TeamPlayer) Reload(ctx context.Context, exec boil.ContextExecutor) error {
-	ret, err := FindTeamPlayer(ctx, exec, o.PlayerID, o.TeamID, o.JoiningDate)
+	ret, err := FindTeamPlayer(ctx, exec, o.PlayerID, o.TeamID)
 	if err != nil {
 		return err
 	}
@@ -1376,21 +1376,21 @@ func (o *TeamPlayerSlice) ReloadAll(ctx context.Context, exec boil.ContextExecut
 }
 
 // TeamPlayerExistsG checks if the TeamPlayer row exists.
-func TeamPlayerExistsG(ctx context.Context, playerID int, teamID int, joiningDate time.Time) (bool, error) {
-	return TeamPlayerExists(ctx, boil.GetContextDB(), playerID, teamID, joiningDate)
+func TeamPlayerExistsG(ctx context.Context, playerID int, teamID int) (bool, error) {
+	return TeamPlayerExists(ctx, boil.GetContextDB(), playerID, teamID)
 }
 
 // TeamPlayerExists checks if the TeamPlayer row exists.
-func TeamPlayerExists(ctx context.Context, exec boil.ContextExecutor, playerID int, teamID int, joiningDate time.Time) (bool, error) {
+func TeamPlayerExists(ctx context.Context, exec boil.ContextExecutor, playerID int, teamID int) (bool, error) {
 	var exists bool
-	sql := "select exists(select 1 from \"team_players\" where \"player_id\"=$1 AND \"team_id\"=$2 AND \"joining_date\"=$3 limit 1)"
+	sql := "select exists(select 1 from \"team_players\" where \"player_id\"=$1 AND \"team_id\"=$2 limit 1)"
 
 	if boil.IsDebug(ctx) {
 		writer := boil.DebugWriterFrom(ctx)
 		fmt.Fprintln(writer, sql)
-		fmt.Fprintln(writer, playerID, teamID, joiningDate)
+		fmt.Fprintln(writer, playerID, teamID)
 	}
-	row := exec.QueryRowContext(ctx, sql, playerID, teamID, joiningDate)
+	row := exec.QueryRowContext(ctx, sql, playerID, teamID)
 
 	err := row.Scan(&exists)
 	if err != nil {
@@ -1402,5 +1402,5 @@ func TeamPlayerExists(ctx context.Context, exec boil.ContextExecutor, playerID i
 
 // Exists checks if the TeamPlayer row exists.
 func (o *TeamPlayer) Exists(ctx context.Context, exec boil.ContextExecutor) (bool, error) {
-	return TeamPlayerExists(ctx, exec, o.PlayerID, o.TeamID, o.JoiningDate)
+	return TeamPlayerExists(ctx, exec, o.PlayerID, o.TeamID)
 }

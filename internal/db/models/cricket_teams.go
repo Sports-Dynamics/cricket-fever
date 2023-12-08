@@ -632,7 +632,7 @@ func (o *CricketTeam) AddTeamTeamPlayers(ctx context.Context, exec boil.ContextE
 				strmangle.SetParamNames("\"", "\"", 1, []string{"team_id"}),
 				strmangle.WhereClause("\"", "\"", 2, teamPlayerPrimaryKeyColumns),
 			)
-			values := []interface{}{o.TeamID, rel.PlayerID, rel.TeamID, rel.JoiningDate}
+			values := []interface{}{o.TeamID, rel.PlayerID, rel.TeamID}
 
 			if boil.IsDebug(ctx) {
 				writer := boil.DebugWriterFrom(ctx)

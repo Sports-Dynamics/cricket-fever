@@ -149,7 +149,7 @@ func testTeamPlayersExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	e, err := TeamPlayerExists(ctx, tx, o.PlayerID, o.TeamID, o.JoiningDate)
+	e, err := TeamPlayerExists(ctx, tx, o.PlayerID, o.TeamID)
 	if err != nil {
 		t.Errorf("Unable to check if TeamPlayer exists: %s", err)
 	}
@@ -175,7 +175,7 @@ func testTeamPlayersFind(t *testing.T) {
 		t.Error(err)
 	}
 
-	teamPlayerFound, err := FindTeamPlayer(ctx, tx, o.PlayerID, o.TeamID, o.JoiningDate)
+	teamPlayerFound, err := FindTeamPlayer(ctx, tx, o.PlayerID, o.TeamID)
 	if err != nil {
 		t.Error(err)
 	}
@@ -661,7 +661,7 @@ func testTeamPlayerToOneSetOpCricketPlayerUsingPlayer(t *testing.T) {
 			t.Error("foreign key was wrong value", a.PlayerID)
 		}
 
-		if exists, err := TeamPlayerExists(ctx, tx, a.PlayerID, a.TeamID, a.JoiningDate); err != nil {
+		if exists, err := TeamPlayerExists(ctx, tx, a.PlayerID, a.TeamID); err != nil {
 			t.Fatal(err)
 		} else if !exists {
 			t.Error("want 'a' to exist")
@@ -714,7 +714,7 @@ func testTeamPlayerToOneSetOpCricketTeamUsingTeam(t *testing.T) {
 			t.Error("foreign key was wrong value", a.TeamID)
 		}
 
-		if exists, err := TeamPlayerExists(ctx, tx, a.PlayerID, a.TeamID, a.JoiningDate); err != nil {
+		if exists, err := TeamPlayerExists(ctx, tx, a.PlayerID, a.TeamID); err != nil {
 			t.Fatal(err)
 		} else if !exists {
 			t.Error("want 'a' to exist")

@@ -20,7 +20,7 @@ This application will consist of following features :
 Technologies Used : 
 - ZKP based authentication.
 - Content Based Addressing : This means each and every entity in this application will be an NFT and can be traded if required.
-- An Algorithm to build Ground , Player , Team , Tournament repulation over time.
+- An Algorithm to build Ground , Player , Team , Tournament `reputation` over time.
 - Internal coin for ground booking, incentivizing players and umpires. 
   
 ### Project Dependencies : 

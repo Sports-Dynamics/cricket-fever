@@ -20,7 +20,7 @@ func JoinTeamHandler(service TeamPlayersService) http.HandlerFunc {
 }
 
 func (t joinTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	var request *CreateTeamRequestParams
+	var request *AddPlayerRequestParams
 
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&request); err != nil {
@@ -34,7 +34,7 @@ func (t joinTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	team, err := t.service.Join(context.Background(), "", "", 1)
+	team, err := t.service.Join(context.Background(), request)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not create account.", zap.Error(err))

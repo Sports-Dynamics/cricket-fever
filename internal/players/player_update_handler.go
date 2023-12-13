@@ -11,12 +11,12 @@ import (
 )
 
 type updatePlayer struct {
-	service PlayerService
+	repo PlayerRepo
 }
 
-func UpdatePlayerHandler(service PlayerService) http.HandlerFunc {
+func UpdatePlayerHandler(repo PlayerRepo) http.HandlerFunc {
 
-	return createPlayer{service: service}.ServeHTTP
+	return updatePlayer{repo: repo}.ServeHTTP
 }
 
 func (t updatePlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +34,7 @@ func (t updatePlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	team, err := t.service.Update(context.Background(), request)
+	team, err := t.repo.Update(context.Background(), request)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not create account.", zap.Error(err))

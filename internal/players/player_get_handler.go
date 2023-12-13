@@ -11,12 +11,12 @@ import (
 )
 
 type getPlayer struct {
-	service PlayerService
+	repo PlayerRepo
 }
 
-func GetPlayerHandler(service PlayerService) http.HandlerFunc {
+func GetPlayerHandler(repo PlayerRepo) http.HandlerFunc {
 
-	return getPlayer{service: service}.ServeHTTP
+	return getPlayer{repo: repo}.ServeHTTP
 }
 
 func (t getPlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -26,7 +26,7 @@ func (t getPlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	team, err := t.service.Get(context.Background(), uuid)
+	team, err := t.repo.GetByUUID(context.Background(), uuid)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not get player information.", zap.Error(err))

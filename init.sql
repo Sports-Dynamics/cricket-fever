@@ -1,20 +1,17 @@
 
 -- +migrate Up
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE cricket_teams (
     team_id SERIAL PRIMARY KEY,
-    team_uuid UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
+    team_uuid UUID UNIQUE NOT NULL,
     team_name VARCHAR(49) UNIQUE NOT NULL,
     team_country VARCHAR(49) NOT NULL,
     team_state VARCHAR(49) NOT NULL,
     team_city VARCHAR(49) NOT NULL,
     captain_id INT ,
     vice_captain_id INT ,
-    team_coach_id INT, 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    team_coach_id INT 
 );
+
 
 CREATE INDEX idx_cricket_teams_team_name ON cricket_teams (team_name);
 CREATE INDEX idx_cricket_teams_country ON cricket_teams (team_country);
@@ -70,7 +67,6 @@ CREATE TYPE  cricket_fielding_position AS ENUM (
 
 CREATE TABLE cricket_players (
     player_id SERIAL PRIMARY KEY,
-    player_uuid UUID UNIQUE NOT NULL,
     player_name VARCHAR(50) UNIQUE NOT NULL,
     player_email VARCHAR(50) UNIQUE NOT NULL,
     player_mobile INT UNIQUE NOT NULL,
@@ -78,15 +74,9 @@ CREATE TABLE cricket_players (
     player_role cricket_role NOT NULL , 
     batting_positions cricket_batting_position NOT NULL,
     bowler_types cricket_bowler_type NOT NULL, 
-    fielding_positions cricket_fielding_position NOT NULL,
-    joining_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    team_id INTEGER NOT NULL, 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (team_id) REFERENCES cricket_teams (team_id)
+    fielding_positions cricket_fielding_position NOT NULL
 );
 
-CREATE INDEX idx_cricket_players_player_uuid ON cricket_players (player_uuid);
 CREATE INDEX idx_cricket_players_player_name ON cricket_players (player_name);
 CREATE INDEX idx_cricket_players_batting_position ON cricket_players (batting_positions);
 CREATE INDEX idx_cricket_players_bowler_type ON cricket_players (bowler_types);

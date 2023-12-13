@@ -11,12 +11,12 @@ import (
 )
 
 type deletePlayer struct {
-	service PlayerService
+	repo PlayerRepo
 }
 
-func DeletePlayerHandler(service PlayerService) http.HandlerFunc {
+func DeletePlayerHandler(repo PlayerRepo) http.HandlerFunc {
 
-	return createPlayer{service: service}.ServeHTTP
+	return deletePlayer{repo: repo}.ServeHTTP
 }
 
 func (t deletePlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -27,7 +27,7 @@ func (t deletePlayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	team, err := t.service.Delete(context.Background(), uuid)
+	team, err := t.repo.Delete(context.Background(), uuid)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not get player information.", zap.Error(err))

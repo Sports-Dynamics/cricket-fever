@@ -16,12 +16,12 @@ type deleteTeam struct {
 
 func DeleteTeamHandler(service TeamService) http.HandlerFunc {
 
-	return createTeam{service: service}.ServeHTTP
+	return deleteTeam{service: service}.ServeHTTP
 }
 
 func (t deleteTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	uuid, err := utils.GetUUIDFromRequest(r, TeamID)
+	uuid, err := utils.GetUUIDFromRequest(r, TeamUUID)
 	if err != nil {
 		handlers.RespondWithError(r.Context(), w, err, http.StatusBadRequest)
 		return

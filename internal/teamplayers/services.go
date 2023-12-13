@@ -9,44 +9,62 @@ import (
 type TeamPlayersService interface {
 
 	// join an existing cricket team
-	Join(ctx context.Context, teamUUID, playerUUID string, joiningDate int) (*models.TeamPlayer, error)
+	Join(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error)
 
 	// removing a player from the team
-	Remove(ctx context.Context, teamUUID, playerID string) (*models.TeamPlayer, error)
+	Remove(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error)
 
 	// find all players belonging to a particular team
-	GetPlayers(ctx context.Context, teamUUID string) (*[]models.CricketPlayer, error)
+	GetPlayers(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error)
 
 	// find all teams a player belongs to
-	FindTeams(ctx context.Context, playerUUID string) (*[]models.CricketTeam, error)
+	FindTeams(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error)
 }
 
 type teamplayers struct {
 	teamRepo TeamPlayersRepo
 }
 
-func NewTeamService(teams TeamPlayersRepo) TeamPlayersService {
+func NewTeamPlayersService(teams TeamPlayersRepo) TeamPlayersService {
 	return &teamplayers{teamRepo: teams}
 }
 
-func (t *teamplayers) Join(ctx context.Context, teamUUID, playerUUID string, joiningDate int) (*models.TeamPlayer, error) {
+func (t *teamplayers) Join(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error) {
 
-	newTeam, err := t.teamRepo.Join(ctx, 1, 2, joiningDate)
+	result, err := t.teamRepo.Join(ctx, req)
 	if err != nil {
-		return newTeam, err
+		return result, err
 	}
 
-	return newTeam, nil
+	return result, nil
 }
 
-func (t *teamplayers) Remove(ctx context.Context, teamUUID, playerID string) (*models.TeamPlayer, error) {
-	return nil, nil
+func (t *teamplayers) Remove(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error) {
+
+	result, err := t.teamRepo.Remove(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
-func (t *teamplayers) GetPlayers(ctx context.Context, teamUUID string) (*[]models.CricketPlayer, error) {
-	return nil, nil
+func (t *teamplayers) GetPlayers(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error) {
+
+	result, err := t.teamRepo.GetPlayers(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
-func (t *teamplayers) FindTeams(ctx context.Context, playerUUID string) (*[]models.CricketTeam, error) {
-	return nil, nil
+func (t *teamplayers) FindTeams(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error) {
+
+	result, err := t.teamRepo.FindTeams(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }

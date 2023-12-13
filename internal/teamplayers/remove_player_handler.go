@@ -2,32 +2,40 @@ package teamplayers
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
 	"github.com/sports-dynamics/cricket-fever/internal/modo"
-	"github.com/sports-dynamics/cricket-fever/internal/utils"
 	"go.uber.org/zap"
 )
 
-type deleteTeam struct {
-	service TeamService
+type removeplayer struct {
+	service TeamPlayersService
 }
 
-func DeleteTeamHandler(service TeamService) http.HandlerFunc {
+func RemovePlayerHandler(service TeamPlayersService) http.HandlerFunc {
 
-	return createTeam{service: service}.ServeHTTP
+	return removeplayer{service: service}.ServeHTTP
 }
 
-func (t deleteTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (rp removeplayer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	uuid, err := utils.GetUUIDFromRequest(r, TeamID)
-	if err != nil {
+	var request *AddPlayerRequestParams
+
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&request); err != nil {
 		handlers.RespondWithError(r.Context(), w, err, http.StatusBadRequest)
 		return
 	}
+	defer r.Body.Close()
 
-	team, err := t.service.Delete(context.Background(), uuid)
+	if err := request.Validate(); err != nil {
+		handlers.RespondWithError(r.Context(), w, err, http.StatusUnprocessableEntity)
+		return
+	}
+
+	team, err := rp.service.Remove(context.Background(), request)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not create account.", zap.Error(err))

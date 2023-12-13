@@ -2,6 +2,7 @@ package teams
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
 )
@@ -34,8 +35,13 @@ func (t *team) Create(ctx context.Context, req *CreateTeamRequestParams) (*model
 
 func (t *team) Get(ctx context.Context, uuid string) (*models.CricketTeam, error) {
 
-	// TO-DO
-	newTeam, err := t.teamRepo.Get(ctx, 1)
+	teamID, err := t.teamRepo.GetIDFromUUID(ctx, uuid)
+	if err != nil {
+		fmt.Println(" failed to get teamID from UUID : err : ", err.Error())
+		return nil, err
+	}
+
+	newTeam, err := t.teamRepo.Get(ctx, *teamID)
 	if err != nil {
 		return newTeam, err
 	}
@@ -45,8 +51,7 @@ func (t *team) Get(ctx context.Context, uuid string) (*models.CricketTeam, error
 }
 
 func (t *team) Update(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error) {
-
-	// TO-DO
+	fmt.Println(" team name : ", req.TeamName)
 	newTeam, err := t.teamRepo.Update(ctx, req)
 	if err != nil {
 		return newTeam, err
@@ -59,7 +64,7 @@ func (t *team) Update(ctx context.Context, req *CreateTeamRequestParams) (*model
 func (t *team) Delete(ctx context.Context, uuid string) (*models.CricketTeam, error) {
 
 	// TO-DO
-	newTeam, err := t.teamRepo.Delete(ctx, 1)
+	newTeam, err := t.teamRepo.Delete(ctx, uuid)
 	if err != nil {
 		return newTeam, err
 	}

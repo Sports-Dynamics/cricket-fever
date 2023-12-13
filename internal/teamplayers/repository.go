@@ -7,44 +7,67 @@ import (
 
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
 	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 type TeamPlayersRepo interface {
-	Join(ctx context.Context, teamUUID, playerUUID string, joiningDate int) (*models.TeamPlayer, error)
-	Remove(ctx context.Context, teamUUID, playerID string) (*models.TeamPlayer, error)
-	GetPlayers(ctx context.Context, teamUUID string) (*[]models.CricketPlayer, error)
-	FindTeams(ctx context.Context, playerUUID string) (*[]models.CricketTeam, error)
+	Join(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error)
+	Remove(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error)
+	GetPlayers(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error)
+	FindTeams(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error)
 }
 
 type Repo struct {
 	db *sql.DB
 }
 
-func NewTeamRepo(db *sql.DB) TeamPlayersRepo {
+func NewTeamPlayersREpo(db *sql.DB) TeamPlayersRepo {
 	return &Repo{db: db}
 }
 
-func (ct Repo) Join(ctx context.Context, teamUUID, playerUUID string, joiningDate int) (*models.TeamPlayer, error) {
+func (ct Repo) Join(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error) {
 
-	new_team := models.TeamPlayer{}
-
-	if err := new_team.Insert(context.Background(), ct.db, boil.Infer()); err != nil {
+	if err := req.Insert(context.Background(), ct.db, boil.Infer()); err != nil {
 		fmt.Println(" failed to insert into db : ", err.Error())
-		return &new_team, err
+		return &req.TeamPlayer, err
 	}
 
-	fmt.Println(" new team value : ", new_team)
-
-	return &new_team, nil
+	return &req.TeamPlayer, nil
 }
 
-func (ct Repo) Remove(ctx context.Context, teamUUID, playerID string) (*models.TeamPlayer, error) {
+func (ct Repo) Remove(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error) {
+
+	_, err := models.TeamPlayers(
+		qm.Where("team_id = ?", req.TeamID),
+		qm.And("player_id = ?", req.PlayerID),
+	).DeleteAll(ctx, ct.db)
+	if err != nil {
+		return nil, err
+	}
 
 	return nil, nil
 }
-func (ct Repo) GetPlayers(ctx context.Context, teamUUID string) (*[]models.CricketPlayer, error) {
-	return nil, nil
+func (ct Repo) GetPlayers(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error) {
+
+	teamPlayers, err := models.TeamPlayers(
+		qm.Where("team_id = ?", req.TeamID),
+		qm.And("player_id = ?", req.PlayerID),
+	).All(ctx, ct.db)
+	if err != nil {
+		return nil, err
+	}
+
+	return &teamPlayers, nil
 }
-func (ct Repo) FindTeams(ctx context.Context, playerUUID string) (*[]models.CricketTeam, error) {
-	return nil, nil
+
+func (ct Repo) FindTeams(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error) {
+
+	teamPlayers, err := models.TeamPlayers(
+		qm.And("player_id = ?", req.PlayerID),
+	).All(ctx, ct.db)
+	if err != nil {
+		return nil, err
+	}
+
+	return &teamPlayers, nil
 }

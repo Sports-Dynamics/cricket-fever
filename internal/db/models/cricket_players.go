@@ -25,6 +25,7 @@ import (
 // CricketPlayer is an object representing the database table.
 type CricketPlayer struct {
 	PlayerID          int                     `boil:"player_id" json:"player_id" toml:"player_id" yaml:"player_id"`
+	PlayerUUID        string                  `boil:"player_uuid" json:"player_uuid" toml:"player_uuid" yaml:"player_uuid"`
 	PlayerName        string                  `boil:"player_name" json:"player_name" toml:"player_name" yaml:"player_name"`
 	PlayerEmail       string                  `boil:"player_email" json:"player_email" toml:"player_email" yaml:"player_email"`
 	PlayerMobile      int                     `boil:"player_mobile" json:"player_mobile" toml:"player_mobile" yaml:"player_mobile"`
@@ -40,6 +41,7 @@ type CricketPlayer struct {
 
 var CricketPlayerColumns = struct {
 	PlayerID          string
+	PlayerUUID        string
 	PlayerName        string
 	PlayerEmail       string
 	PlayerMobile      string
@@ -50,6 +52,7 @@ var CricketPlayerColumns = struct {
 	FieldingPositions string
 }{
 	PlayerID:          "player_id",
+	PlayerUUID:        "player_uuid",
 	PlayerName:        "player_name",
 	PlayerEmail:       "player_email",
 	PlayerMobile:      "player_mobile",
@@ -62,6 +65,7 @@ var CricketPlayerColumns = struct {
 
 var CricketPlayerTableColumns = struct {
 	PlayerID          string
+	PlayerUUID        string
 	PlayerName        string
 	PlayerEmail       string
 	PlayerMobile      string
@@ -72,6 +76,7 @@ var CricketPlayerTableColumns = struct {
 	FieldingPositions string
 }{
 	PlayerID:          "cricket_players.player_id",
+	PlayerUUID:        "cricket_players.player_uuid",
 	PlayerName:        "cricket_players.player_name",
 	PlayerEmail:       "cricket_players.player_email",
 	PlayerMobile:      "cricket_players.player_mobile",
@@ -300,6 +305,7 @@ func (w whereHelperCricketFieldingPosition) NIN(slice []CricketFieldingPosition)
 
 var CricketPlayerWhere = struct {
 	PlayerID          whereHelperint
+	PlayerUUID        whereHelperstring
 	PlayerName        whereHelperstring
 	PlayerEmail       whereHelperstring
 	PlayerMobile      whereHelperint
@@ -310,6 +316,7 @@ var CricketPlayerWhere = struct {
 	FieldingPositions whereHelperCricketFieldingPosition
 }{
 	PlayerID:          whereHelperint{field: "\"cricket_players\".\"player_id\""},
+	PlayerUUID:        whereHelperstring{field: "\"cricket_players\".\"player_uuid\""},
 	PlayerName:        whereHelperstring{field: "\"cricket_players\".\"player_name\""},
 	PlayerEmail:       whereHelperstring{field: "\"cricket_players\".\"player_email\""},
 	PlayerMobile:      whereHelperint{field: "\"cricket_players\".\"player_mobile\""},
@@ -348,8 +355,8 @@ func (r *cricketPlayerR) GetPlayerTeamPlayers() TeamPlayerSlice {
 type cricketPlayerL struct{}
 
 var (
-	cricketPlayerAllColumns            = []string{"player_id", "player_name", "player_email", "player_mobile", "player_picture", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
-	cricketPlayerColumnsWithoutDefault = []string{"player_name", "player_email", "player_mobile", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
+	cricketPlayerAllColumns            = []string{"player_id", "player_uuid", "player_name", "player_email", "player_mobile", "player_picture", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
+	cricketPlayerColumnsWithoutDefault = []string{"player_uuid", "player_name", "player_email", "player_mobile", "player_role", "batting_positions", "bowler_types", "fielding_positions"}
 	cricketPlayerColumnsWithDefault    = []string{"player_id", "player_picture"}
 	cricketPlayerPrimaryKeyColumns     = []string{"player_id"}
 	cricketPlayerGeneratedColumns      = []string{}

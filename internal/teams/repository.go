@@ -14,8 +14,10 @@ import (
 type TeamRepo interface {
 	Create(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error)
 	Get(ctx context.Context, id int) (*models.CricketTeam, error)
+	GetByUUID(ctx context.Context, uuid string) (*models.CricketTeam, error)
 	Update(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error)
-	Delete(ctx context.Context, id int) (*models.CricketTeam, error)
+	Delete(ctx context.Context, uuid string) (*models.CricketTeam, error)
+	GetIDFromUUID(ctx context.Context, uuid string) (*int, error)
 }
 
 type Repo struct {
@@ -64,24 +66,57 @@ func (ct Repo) Get(ctx context.Context, teamID int) (*models.CricketTeam, error)
 	return team, nil
 }
 
-func (ct Repo) Update(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error) {
+func (ct Repo) GetByUUID(ctx context.Context, teamUUID string) (*models.CricketTeam, error) {
 
-	team := models.CricketTeam{TeamID: req.TeamID}
+	query := models.CricketTeams(models.CricketTeamWhere.TeamUUID.EQ(teamUUID))
 
-	team.Update(ctx, ct.db, boil.Infer())
+	team, err := query.One(ctx, ct.db)
+	if err != nil {
+		fmt.Println("failed to fetch particular team from team table : ", err.Error())
+		return nil, err
+	}
 
 	fmt.Println(" new team value : ", team)
 
-	return &team, nil
+	return team, nil
 }
 
-func (ct Repo) Delete(ctx context.Context, id int) (*models.CricketTeam, error) {
+func (ct Repo) Update(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error) {
 
-	team := models.CricketTeam{TeamID: id}
+	_, err := req.Update(ctx, ct.db, boil.Infer())
+	if err != nil {
+		return nil, err
+	}
 
-	team.Delete(ctx, ct.db)
+	fmt.Println(" new team value : ", req)
 
-	fmt.Println(" new team value : ", team)
+	return &req.CricketTeam, nil
+}
 
-	return &team, nil
+func (ct Repo) Delete(ctx context.Context, uuid string) (*models.CricketTeam, error) {
+
+	query := models.CricketTeams(models.CricketTeamWhere.TeamUUID.EQ(uuid))
+
+	team, err := query.One(ctx, ct.db)
+	if err != nil {
+		return nil, err
+	}
+
+	if _, err := team.Delete(ctx, ct.db); err != nil {
+		return nil, err
+	}
+
+	return team, nil
+}
+
+func (ct Repo) GetIDFromUUID(ctx context.Context, uuid string) (*int, error) {
+
+	query := models.CricketTeams(models.CricketTeamWhere.TeamUUID.EQ(uuid))
+
+	team, err := query.One(ctx, ct.db)
+	if err != nil {
+		fmt.Println("failed to fetch particular team from team table : ", err.Error())
+		return nil, err
+	}
+	return &team.TeamID, nil
 }

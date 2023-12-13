@@ -57,7 +57,7 @@ func (t *newPlayer) Update(ctx context.Context, req *PlayerRequestParams) (*mode
 func (t *newPlayer) Delete(ctx context.Context, playerUUID string) (*models.CricketPlayer, error) {
 
 	// TO-DO fetch UUID for the player
-	newTeam, err := t.repo.Delete(ctx, 1)
+	newTeam, err := t.repo.Delete(ctx, playerUUID)
 	if err != nil {
 		return newTeam, err
 	}

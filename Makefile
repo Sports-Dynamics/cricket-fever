@@ -14,7 +14,7 @@ OUT_DIR = bin
 BUILD_TARGET = $(OUT_DIR)/cricket-fever
 
 # Default target
-default: test
+default: build 
 
 # Run the application using the latest built Docker image
 run:
@@ -29,8 +29,10 @@ run:
 # Build the Docker image
 build:
 	@echo "Building Docker image..."
-	@cd kubernetes/ && ./app-common-container-build-for-release.sh
-	@cd ../../
+	docker build -t myapp .
+	docker-compose down
+	docker-compose up
+	sql-migrate up
 
 # Run the golangci-lint command inside a Docker container
 lint:

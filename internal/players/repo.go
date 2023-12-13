@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/google/uuid"
 	"github.com/sports-dynamics/cricket-fever/internal/db/models"
 	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
@@ -13,8 +14,9 @@ import (
 type PlayerRepo interface {
 	Create(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error)
 	Get(ctx context.Context, id int) (*models.CricketPlayer, error)
+	GetByUUID(ctx context.Context, uuid string) (*models.CricketPlayer, error)
 	Update(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error)
-	Delete(ctx context.Context, id int) (*models.CricketPlayer, error)
+	Delete(ctx context.Context, uuid string) (*models.CricketPlayer, error)
 }
 
 type Repo struct {
@@ -27,9 +29,8 @@ func NewPlayerRepo(db *sql.DB) PlayerRepo {
 
 func (ct Repo) Create(ctx context.Context, req *PlayerRequestParams) (*models.CricketPlayer, error) {
 
-	fmt.Println("dumping request value : ", req)
-
 	new_team := models.CricketPlayer{
+		PlayerUUID:        uuid.New().String(),
 		PlayerName:        req.PlayerName,
 		PlayerEmail:       req.PlayerEmail,
 		PlayerMobile:      req.PlayerMobile,
@@ -45,7 +46,7 @@ func (ct Repo) Create(ctx context.Context, req *PlayerRequestParams) (*models.Cr
 		return &new_team, err
 	}
 
-	fmt.Println(" new team value : ", new_team)
+	fmt.Println(" new player value : ", new_team)
 
 	return &new_team, nil
 }
@@ -53,6 +54,19 @@ func (ct Repo) Create(ctx context.Context, req *PlayerRequestParams) (*models.Cr
 func (ct Repo) Get(ctx context.Context, playerID int) (*models.CricketPlayer, error) {
 
 	query := models.CricketPlayers(models.CricketTeamWhere.TeamID.EQ(playerID))
+
+	player, err := query.One(ctx, ct.db)
+	if err != nil {
+		fmt.Println("failed to fetch particular team from team table : ", err.Error())
+		return nil, err
+	}
+
+	return player, nil
+}
+
+func (ct Repo) GetByUUID(ctx context.Context, playerUUID string) (*models.CricketPlayer, error) {
+
+	query := models.CricketPlayers(models.CricketTeamWhere.TeamID.EQ(1))
 
 	player, err := query.One(ctx, ct.db)
 	if err != nil {
@@ -72,9 +86,9 @@ func (ct Repo) Update(ctx context.Context, req *PlayerRequestParams) (*models.Cr
 	return &player, nil
 }
 
-func (ct Repo) Delete(ctx context.Context, playerID int) (*models.CricketPlayer, error) {
+func (ct Repo) Delete(ctx context.Context, playerUUID string) (*models.CricketPlayer, error) {
 
-	player := models.CricketPlayer{PlayerID: playerID}
+	player := models.CricketPlayer{PlayerID: 1}
 
 	player.Delete(ctx, ct.db)
 

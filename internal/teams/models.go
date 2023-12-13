@@ -11,5 +11,5 @@ func (t *CreateTeamRequestParams) Validate() error {
 }
 
 const (
-	TeamID string = "teamID"
+	TeamUUID string = "teamUUID"
 )

@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/sports-dynamics/cricket-fever/internal/modo"
 	"go.uber.org/zap"
 )
@@ -17,4 +19,11 @@ func HeartbeatHandler(w http.ResponseWriter, r *http.Request) {
 	if _, err := w.Write([]byte(http.StatusText(http.StatusOK))); err != nil {
 		modo.Logger(r.Context()).Error("Error writing response.", zap.Error(err))
 	}
+}
+
+func YourHandlerFunction(w http.ResponseWriter, r *http.Request) {
+	teamID := chi.URLParam(r, "teamID")
+	// Now teamID contains the value from the URL parameter
+	// Do something with teamID
+	fmt.Println(" team id is ", teamID)
 }

@@ -11,23 +11,23 @@ import (
 )
 
 type getTeam struct {
-	service TeamService
+	repo TeamRepo
 }
 
-func GetTeamHandler(service TeamService) http.HandlerFunc {
-
-	return getTeam{service: service}.ServeHTTP
+func GetTeamHandler(repo TeamRepo) http.HandlerFunc {
+	return getTeam{repo: repo}.ServeHTTP
 }
 
 func (t getTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	uuid, err := utils.GetUUIDFromRequest(r, TeamID)
+	uuid, err := utils.GetUUIDFromRequest(r, TeamUUID)
 	if err != nil {
 		handlers.RespondWithError(r.Context(), w, err, http.StatusBadRequest)
 		return
+
 	}
 
-	team, err := t.service.Get(context.Background(), uuid)
+	team, err := t.repo.GetByUUID(context.Background(), uuid)
 
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not get team information.", zap.Error(err))

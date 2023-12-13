@@ -7,37 +7,37 @@ import (
 )
 
 type CreateTeamStub struct {
-	CreateFunc func(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error)
-	GetFunc    func(ctx context.Context, uuid string) (*models.CricketTeam, error)
-	UpdateFunc func(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error)
-	DeleteFunc func(ctx context.Context, uuid string) (*models.CricketTeam, error)
+	JoinFunc       func(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error)
+	RemoveFunc     func(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error)
+	GetPlayersFunc func(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error)
+	FindTeamsFunc  func(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error)
 }
 
-var _ TeamService = (*CreateTeamStub)(nil)
+var _ TeamPlayersService = (*CreateTeamStub)(nil)
 
-func (s CreateTeamStub) Create(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error) {
-	if s.CreateFunc != nil {
-		return s.CreateFunc(ctx, req)
+func (s CreateTeamStub) Join(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error) {
+	if s.JoinFunc != nil {
+		return s.JoinFunc(ctx, req)
 	}
 	panic("Unexpected call to CreateTeam stub")
 }
-func (s CreateTeamStub) Get(ctx context.Context, uuid string) (*models.CricketTeam, error) {
-	if s.CreateFunc != nil {
-		return s.GetFunc(ctx, uuid)
-	}
-	panic("Unexpected call to CreateTeam stub")
-}
-
-func (s CreateTeamStub) Update(ctx context.Context, req *CreateTeamRequestParams) (*models.CricketTeam, error) {
-	if s.CreateFunc != nil {
-		return s.UpdateFunc(ctx, req)
+func (s CreateTeamStub) Remove(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayer, error) {
+	if s.RemoveFunc != nil {
+		return s.RemoveFunc(ctx, req)
 	}
 	panic("Unexpected call to CreateTeam stub")
 }
 
-func (s CreateTeamStub) Delete(ctx context.Context, uuid string) (*models.CricketTeam, error) {
-	if s.CreateFunc != nil {
-		return s.DeleteFunc(ctx, uuid)
+func (s CreateTeamStub) GetPlayers(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error) {
+	if s.GetPlayersFunc != nil {
+		return s.GetPlayersFunc(ctx, req)
+	}
+	panic("Unexpected call to CreateTeam stub")
+}
+
+func (s CreateTeamStub) FindTeams(ctx context.Context, req *AddPlayerRequestParams) (*models.TeamPlayerSlice, error) {
+	if s.FindTeamsFunc != nil {
+		return s.FindTeamsFunc(ctx, req)
 	}
 	panic("Unexpected call to CreateTeam stub")
 }

@@ -39,4 +39,4 @@ Technologies Used :
 
 ### Maintainer : 
 Pankaj Nayak 
-pnkj.nitrr@gmail.com
+jaknap@cricketfever.co

@@ -1,5 +1,5 @@
 # Directory in which the generated static code is to be kept.
-output = "internal/models" 
+output = "internal/db/models" 
 
 # Each time new code is generated, completely wipe out the old one.
 wipe = true

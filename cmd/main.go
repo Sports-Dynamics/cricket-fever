@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	app.Start(context.Background(), app.Config{Port: 10000})
+	app.Start(context.Background(), app.Config{Port: 10000, ValidAPIToken: "sovApiToken"})
 }

@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  myapplication:
+    build: .
+    image: myapp
+    container_name: mycontainer
+    ports:
+      - "10000:10000"
+    networks:
+      - main
+    volumes:
+      - postgres-data:/home/jaknap/data
+    depends_on:
+      - postgres
+    restart : always
+
+  postgres:
+    image: postgres
+    container_name: postgresdatabasee
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: strongone
+    ports:
+      - "5432:5432"
+    networks:
+      - main
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    command: ["postgres", "-c", "ssl=on", "-c", "ssl_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem", "-c", "ssl_key_file=/etc/ssl/private/ssl-cert-snakeoil.key"]
+
+networks:
+  main:
+
+volumes:
+  postgres-data:

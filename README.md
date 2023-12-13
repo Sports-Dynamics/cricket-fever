@@ -6,15 +6,15 @@
 `The purpose of this repository is to replicate entire physical process of playing and organizing a cricket tournament into a digital experience.` 
 
 This application will consist of following features : 
-- Player Mangement
-- Team Management
-- Tournament Management
-- Player Statistics
-- Match Statistics
-- Overall Statistics
-- Cricket Ground booking Engine
-- Crypto and Fiat Payment Management Engine
-- NFT MarketPlace
+- `Player Mangement`
+- `Team Management`
+- `Tournament Management`
+- `Player Statistics`
+- `Match Statistics`
+- `Overall Statistics`
+- `Cricket Ground booking Engine`
+- `Crypto and Fiat Payment Management Engine`
+- `NFT MarketPlace`
 
 
 Technologies Used : 

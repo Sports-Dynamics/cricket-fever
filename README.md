@@ -3,7 +3,7 @@
 
 
 # Cricket Fever
-`The purpose of this repository is to replicate entire physical process of playing and organizing a cricket tournament in a digital experience.` 
+`The purpose of this repository is to replicate entire physical process of playing and organizing a cricket tournament into a digital experience.` 
 
 This application will consist of following features : 
 - Player Mangement

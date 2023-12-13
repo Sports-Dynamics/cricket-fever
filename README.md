@@ -2,7 +2,7 @@
 ![golden-helmet](https://github.com/Sports-Dynamics/cricket-fever/assets/53615490/90734a0c-e60a-4d02-9346-aaf109fbb215)
 
 
-# Cricket Fever
+# Cricket Fever (India's First Crypto Cricket Application)
 `The purpose of this repository is to replicate entire physical process of playing and organizing a cricket tournament into a digital experience.` 
 
 This application will consist of following features : 
@@ -12,6 +12,13 @@ This application will consist of following features :
 - Match Statistics
 - Overall Statistics
 
+
+Technologies Used : 
+- ZKP based authentication.
+- Content Based Addressing : This means each and every entity in this application will be an NFT and can be traded if required.
+- An Algorithm to build Ground , Player , Team , Tournament repulation over time.
+- Internal coin for ground booking, incentivizing players and umpires. 
+  
 ### Project Dependencies : 
 1. `Go` : A programming language to build backend stories. 
 2. `Sql-migrate` : Tool used for running database migration scripts. 

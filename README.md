@@ -8,9 +8,13 @@
 This application will consist of following features : 
 - Player Mangement
 - Team Management
+- Tournament Management
 - Player Statistics
 - Match Statistics
 - Overall Statistics
+- Cricket Ground booking Engine
+- Crypto and Fiat Payment Management Engine
+- NFT MarketPlace
 
 
 Technologies Used : 

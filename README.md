@@ -1,3 +1,6 @@
+
+![golden-helmet](https://github.com/Sports-Dynamics/cricket-fever/assets/53615490/b5205dbd-f430-4fa7-90c2-3e056ba4bfb4)
+
 # Cricket Fever
 `The purpose of this repository is to replicate entire physical process of playing and organizing a cricket tournament in a digital experience.` 
 

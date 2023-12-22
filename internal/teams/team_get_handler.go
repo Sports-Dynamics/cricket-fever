@@ -14,21 +14,24 @@ type getTeam struct {
 	repo TeamRepo
 }
 
+// GetTeamHandler returns an http.HandlerFunc that handles
+// the GET request for retrieving team information.
 func GetTeamHandler(repo TeamRepo) http.HandlerFunc {
-	return getTeam{repo: repo}.ServeHTTP
+	return func(w http.ResponseWriter, r *http.Request) {
+		t := getTeam{repo: repo}
+		t.ServeHTTP(w, r)
+	}
 }
 
-func (t getTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
+// ServeHTTP handles the HTTP request for getting a team.
+func (t *getTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	uuid, err := utils.GetUUIDFromRequest(r, TeamUUID)
 	if err != nil {
 		handlers.RespondWithError(r.Context(), w, err, http.StatusBadRequest)
 		return
-
 	}
 
 	team, err := t.repo.GetByUUID(context.Background(), uuid)
-
 	if err != nil {
 		modo.Logger(r.Context()).Error("Could not get team information.", zap.Error(err))
 		handlers.RespondWithError(r.Context(), w, err, http.StatusInternalServerError)

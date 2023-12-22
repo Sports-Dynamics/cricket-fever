@@ -6,7 +6,11 @@ type CreateTeamRequestParams struct {
 	models.CricketTeam
 }
 
+// Validate checks if the CreateTeamRequestParams object is valid.
+// It returns an error if the object is invalid, or nil if it is valid.
 func (t *CreateTeamRequestParams) Validate() error {
+	// Since there are no validation rules for CreateTeamRequestParams,
+	// we can simply return nil to indicate that the object is valid.
 	return nil
 }
 

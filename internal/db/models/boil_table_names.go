@@ -4,13 +4,19 @@
 package models
 
 var TableNames = struct {
+	CricketGrounds string
 	CricketPlayers string
 	CricketTeams   string
+	GroundBookings string
 	Migrations     string
+	Payments       string
 	TeamPlayers    string
 }{
+	CricketGrounds: "cricket_grounds",
 	CricketPlayers: "cricket_players",
 	CricketTeams:   "cricket_teams",
+	GroundBookings: "ground_bookings",
 	Migrations:     "migrations",
+	Payments:       "payments",
 	TeamPlayers:    "team_players",
 }

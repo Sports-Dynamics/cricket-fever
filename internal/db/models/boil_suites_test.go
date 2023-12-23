@@ -12,89 +12,128 @@ import "testing"
 // It does NOT run each operation group in parallel.
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGrounds)
 	t.Run("CricketPlayers", testCricketPlayers)
 	t.Run("CricketTeams", testCricketTeams)
+	t.Run("GroundBookings", testGroundBookings)
 	t.Run("Migrations", testMigrations)
+	t.Run("Payments", testPayments)
 	t.Run("TeamPlayers", testTeamPlayers)
 }
 
 func TestDelete(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsDelete)
 	t.Run("CricketPlayers", testCricketPlayersDelete)
 	t.Run("CricketTeams", testCricketTeamsDelete)
+	t.Run("GroundBookings", testGroundBookingsDelete)
 	t.Run("Migrations", testMigrationsDelete)
+	t.Run("Payments", testPaymentsDelete)
 	t.Run("TeamPlayers", testTeamPlayersDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsQueryDeleteAll)
 	t.Run("CricketPlayers", testCricketPlayersQueryDeleteAll)
 	t.Run("CricketTeams", testCricketTeamsQueryDeleteAll)
+	t.Run("GroundBookings", testGroundBookingsQueryDeleteAll)
 	t.Run("Migrations", testMigrationsQueryDeleteAll)
+	t.Run("Payments", testPaymentsQueryDeleteAll)
 	t.Run("TeamPlayers", testTeamPlayersQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsSliceDeleteAll)
 	t.Run("CricketPlayers", testCricketPlayersSliceDeleteAll)
 	t.Run("CricketTeams", testCricketTeamsSliceDeleteAll)
+	t.Run("GroundBookings", testGroundBookingsSliceDeleteAll)
 	t.Run("Migrations", testMigrationsSliceDeleteAll)
+	t.Run("Payments", testPaymentsSliceDeleteAll)
 	t.Run("TeamPlayers", testTeamPlayersSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsExists)
 	t.Run("CricketPlayers", testCricketPlayersExists)
 	t.Run("CricketTeams", testCricketTeamsExists)
+	t.Run("GroundBookings", testGroundBookingsExists)
 	t.Run("Migrations", testMigrationsExists)
+	t.Run("Payments", testPaymentsExists)
 	t.Run("TeamPlayers", testTeamPlayersExists)
 }
 
 func TestFind(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsFind)
 	t.Run("CricketPlayers", testCricketPlayersFind)
 	t.Run("CricketTeams", testCricketTeamsFind)
+	t.Run("GroundBookings", testGroundBookingsFind)
 	t.Run("Migrations", testMigrationsFind)
+	t.Run("Payments", testPaymentsFind)
 	t.Run("TeamPlayers", testTeamPlayersFind)
 }
 
 func TestBind(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsBind)
 	t.Run("CricketPlayers", testCricketPlayersBind)
 	t.Run("CricketTeams", testCricketTeamsBind)
+	t.Run("GroundBookings", testGroundBookingsBind)
 	t.Run("Migrations", testMigrationsBind)
+	t.Run("Payments", testPaymentsBind)
 	t.Run("TeamPlayers", testTeamPlayersBind)
 }
 
 func TestOne(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsOne)
 	t.Run("CricketPlayers", testCricketPlayersOne)
 	t.Run("CricketTeams", testCricketTeamsOne)
+	t.Run("GroundBookings", testGroundBookingsOne)
 	t.Run("Migrations", testMigrationsOne)
+	t.Run("Payments", testPaymentsOne)
 	t.Run("TeamPlayers", testTeamPlayersOne)
 }
 
 func TestAll(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsAll)
 	t.Run("CricketPlayers", testCricketPlayersAll)
 	t.Run("CricketTeams", testCricketTeamsAll)
+	t.Run("GroundBookings", testGroundBookingsAll)
 	t.Run("Migrations", testMigrationsAll)
+	t.Run("Payments", testPaymentsAll)
 	t.Run("TeamPlayers", testTeamPlayersAll)
 }
 
 func TestCount(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsCount)
 	t.Run("CricketPlayers", testCricketPlayersCount)
 	t.Run("CricketTeams", testCricketTeamsCount)
+	t.Run("GroundBookings", testGroundBookingsCount)
 	t.Run("Migrations", testMigrationsCount)
+	t.Run("Payments", testPaymentsCount)
 	t.Run("TeamPlayers", testTeamPlayersCount)
 }
 
 func TestHooks(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsHooks)
 	t.Run("CricketPlayers", testCricketPlayersHooks)
 	t.Run("CricketTeams", testCricketTeamsHooks)
+	t.Run("GroundBookings", testGroundBookingsHooks)
 	t.Run("Migrations", testMigrationsHooks)
+	t.Run("Payments", testPaymentsHooks)
 	t.Run("TeamPlayers", testTeamPlayersHooks)
 }
 
 func TestInsert(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsInsert)
+	t.Run("CricketGrounds", testCricketGroundsInsertWhitelist)
 	t.Run("CricketPlayers", testCricketPlayersInsert)
 	t.Run("CricketPlayers", testCricketPlayersInsertWhitelist)
 	t.Run("CricketTeams", testCricketTeamsInsert)
 	t.Run("CricketTeams", testCricketTeamsInsertWhitelist)
+	t.Run("GroundBookings", testGroundBookingsInsert)
+	t.Run("GroundBookings", testGroundBookingsInsertWhitelist)
 	t.Run("Migrations", testMigrationsInsert)
 	t.Run("Migrations", testMigrationsInsertWhitelist)
+	t.Run("Payments", testPaymentsInsert)
+	t.Run("Payments", testPaymentsInsertWhitelist)
 	t.Run("TeamPlayers", testTeamPlayersInsert)
 	t.Run("TeamPlayers", testTeamPlayersInsertWhitelist)
 }
@@ -102,6 +141,11 @@ func TestInsert(t *testing.T) {
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
+	t.Run("CricketPlayerToCricketTeamUsingTeam", testCricketPlayerToOneCricketTeamUsingTeam)
+	t.Run("GroundBookingToCricketGroundUsingGround", testGroundBookingToOneCricketGroundUsingGround)
+	t.Run("GroundBookingToCricketPlayerUsingPlayer", testGroundBookingToOneCricketPlayerUsingPlayer)
+	t.Run("GroundBookingToCricketTeamUsingTeam", testGroundBookingToOneCricketTeamUsingTeam)
+	t.Run("PaymentToGroundBookingUsingBooking", testPaymentToOneGroundBookingUsingBooking)
 	t.Run("TeamPlayerToCricketPlayerUsingPlayer", testTeamPlayerToOneCricketPlayerUsingPlayer)
 	t.Run("TeamPlayerToCricketTeamUsingTeam", testTeamPlayerToOneCricketTeamUsingTeam)
 }
@@ -113,20 +157,35 @@ func TestOneToOne(t *testing.T) {}
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToMany(t *testing.T) {
+	t.Run("CricketGroundToGroundGroundBookings", testCricketGroundToManyGroundGroundBookings)
+	t.Run("CricketPlayerToPlayerGroundBookings", testCricketPlayerToManyPlayerGroundBookings)
 	t.Run("CricketPlayerToPlayerTeamPlayers", testCricketPlayerToManyPlayerTeamPlayers)
+	t.Run("CricketTeamToTeamCricketPlayers", testCricketTeamToManyTeamCricketPlayers)
+	t.Run("CricketTeamToTeamGroundBookings", testCricketTeamToManyTeamGroundBookings)
 	t.Run("CricketTeamToTeamTeamPlayers", testCricketTeamToManyTeamTeamPlayers)
+	t.Run("GroundBookingToBookingPayments", testGroundBookingToManyBookingPayments)
 }
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
+	t.Run("CricketPlayerToCricketTeamUsingTeamCricketPlayers", testCricketPlayerToOneSetOpCricketTeamUsingTeam)
+	t.Run("GroundBookingToCricketGroundUsingGroundGroundBookings", testGroundBookingToOneSetOpCricketGroundUsingGround)
+	t.Run("GroundBookingToCricketPlayerUsingPlayerGroundBookings", testGroundBookingToOneSetOpCricketPlayerUsingPlayer)
+	t.Run("GroundBookingToCricketTeamUsingTeamGroundBookings", testGroundBookingToOneSetOpCricketTeamUsingTeam)
+	t.Run("PaymentToGroundBookingUsingBookingPayments", testPaymentToOneSetOpGroundBookingUsingBooking)
 	t.Run("TeamPlayerToCricketPlayerUsingPlayerTeamPlayers", testTeamPlayerToOneSetOpCricketPlayerUsingPlayer)
 	t.Run("TeamPlayerToCricketTeamUsingTeamTeamPlayers", testTeamPlayerToOneSetOpCricketTeamUsingTeam)
 }
 
 // TestToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOneRemove(t *testing.T) {}
+func TestToOneRemove(t *testing.T) {
+	t.Run("GroundBookingToCricketGroundUsingGroundGroundBookings", testGroundBookingToOneRemoveOpCricketGroundUsingGround)
+	t.Run("GroundBookingToCricketPlayerUsingPlayerGroundBookings", testGroundBookingToOneRemoveOpCricketPlayerUsingPlayer)
+	t.Run("GroundBookingToCricketTeamUsingTeamGroundBookings", testGroundBookingToOneRemoveOpCricketTeamUsingTeam)
+	t.Run("PaymentToGroundBookingUsingBookingPayments", testPaymentToOneRemoveOpGroundBookingUsingBooking)
+}
 
 // TestOneToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
@@ -139,49 +198,79 @@ func TestOneToOneRemove(t *testing.T) {}
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToManyAdd(t *testing.T) {
+	t.Run("CricketGroundToGroundGroundBookings", testCricketGroundToManyAddOpGroundGroundBookings)
+	t.Run("CricketPlayerToPlayerGroundBookings", testCricketPlayerToManyAddOpPlayerGroundBookings)
 	t.Run("CricketPlayerToPlayerTeamPlayers", testCricketPlayerToManyAddOpPlayerTeamPlayers)
+	t.Run("CricketTeamToTeamCricketPlayers", testCricketTeamToManyAddOpTeamCricketPlayers)
+	t.Run("CricketTeamToTeamGroundBookings", testCricketTeamToManyAddOpTeamGroundBookings)
 	t.Run("CricketTeamToTeamTeamPlayers", testCricketTeamToManyAddOpTeamTeamPlayers)
+	t.Run("GroundBookingToBookingPayments", testGroundBookingToManyAddOpBookingPayments)
 }
 
 // TestToManySet tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManySet(t *testing.T) {}
+func TestToManySet(t *testing.T) {
+	t.Run("CricketGroundToGroundGroundBookings", testCricketGroundToManySetOpGroundGroundBookings)
+	t.Run("CricketPlayerToPlayerGroundBookings", testCricketPlayerToManySetOpPlayerGroundBookings)
+	t.Run("CricketTeamToTeamGroundBookings", testCricketTeamToManySetOpTeamGroundBookings)
+	t.Run("GroundBookingToBookingPayments", testGroundBookingToManySetOpBookingPayments)
+}
 
 // TestToManyRemove tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManyRemove(t *testing.T) {}
+func TestToManyRemove(t *testing.T) {
+	t.Run("CricketGroundToGroundGroundBookings", testCricketGroundToManyRemoveOpGroundGroundBookings)
+	t.Run("CricketPlayerToPlayerGroundBookings", testCricketPlayerToManyRemoveOpPlayerGroundBookings)
+	t.Run("CricketTeamToTeamGroundBookings", testCricketTeamToManyRemoveOpTeamGroundBookings)
+	t.Run("GroundBookingToBookingPayments", testGroundBookingToManyRemoveOpBookingPayments)
+}
 
 func TestReload(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsReload)
 	t.Run("CricketPlayers", testCricketPlayersReload)
 	t.Run("CricketTeams", testCricketTeamsReload)
+	t.Run("GroundBookings", testGroundBookingsReload)
 	t.Run("Migrations", testMigrationsReload)
+	t.Run("Payments", testPaymentsReload)
 	t.Run("TeamPlayers", testTeamPlayersReload)
 }
 
 func TestReloadAll(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsReloadAll)
 	t.Run("CricketPlayers", testCricketPlayersReloadAll)
 	t.Run("CricketTeams", testCricketTeamsReloadAll)
+	t.Run("GroundBookings", testGroundBookingsReloadAll)
 	t.Run("Migrations", testMigrationsReloadAll)
+	t.Run("Payments", testPaymentsReloadAll)
 	t.Run("TeamPlayers", testTeamPlayersReloadAll)
 }
 
 func TestSelect(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsSelect)
 	t.Run("CricketPlayers", testCricketPlayersSelect)
 	t.Run("CricketTeams", testCricketTeamsSelect)
+	t.Run("GroundBookings", testGroundBookingsSelect)
 	t.Run("Migrations", testMigrationsSelect)
+	t.Run("Payments", testPaymentsSelect)
 	t.Run("TeamPlayers", testTeamPlayersSelect)
 }
 
 func TestUpdate(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsUpdate)
 	t.Run("CricketPlayers", testCricketPlayersUpdate)
 	t.Run("CricketTeams", testCricketTeamsUpdate)
+	t.Run("GroundBookings", testGroundBookingsUpdate)
 	t.Run("Migrations", testMigrationsUpdate)
+	t.Run("Payments", testPaymentsUpdate)
 	t.Run("TeamPlayers", testTeamPlayersUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
+	t.Run("CricketGrounds", testCricketGroundsSliceUpdateAll)
 	t.Run("CricketPlayers", testCricketPlayersSliceUpdateAll)
 	t.Run("CricketTeams", testCricketTeamsSliceUpdateAll)
+	t.Run("GroundBookings", testGroundBookingsSliceUpdateAll)
 	t.Run("Migrations", testMigrationsSliceUpdateAll)
+	t.Run("Payments", testPaymentsSliceUpdateAll)
 	t.Run("TeamPlayers", testTeamPlayersSliceUpdateAll)
 }

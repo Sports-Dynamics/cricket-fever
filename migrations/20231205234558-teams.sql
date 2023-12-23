@@ -4,18 +4,13 @@
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TYPE address_type AS (
-    team_country VARCHAR(49) ,
-    team_state VARCHAR(49) ,
-    team_city VARCHAR(49)
-);
-
-
 CREATE TABLE cricket_teams (
     team_id SERIAL PRIMARY KEY,
     team_uuid UUID DEFAULT uuid_generate_v4() UNIQUE NOT NULL,
     team_name VARCHAR(49) UNIQUE NOT NULL,
-    team_address address_type ,
+    team_country VARCHAR(49) ,
+    team_state VARCHAR(49) ,
+    team_city VARCHAR(49),
     captain_id INT ,
     vice_captain_id INT ,
     team_coach_id INT, 
@@ -112,7 +107,9 @@ CREATE TABLE cricket_grounds (
     ground_id SERIAL PRIMARY KEY,
     ground_name VARCHAR(255) NOT NULL,
     location VARCHAR(255),
-    ground_address address_type,
+    team_country VARCHAR(49) ,
+    team_state VARCHAR(49) ,
+    team_city VARCHAR(49),
     capacity INT,
     established_year INT,
     listed_year INT,
@@ -179,4 +176,3 @@ DROP TYPE cricket_batting_position;
 DROP TABLE cricket_grounds;
 DROP TYPE cricket_bowler_type;
 DROP TYPE cricket_fielding_position;
-DROP TYPE address_type;

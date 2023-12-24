@@ -25,6 +25,7 @@ import (
 // GroundBooking is an object representing the database table.
 type GroundBooking struct {
 	BookingID   int         `boil:"booking_id" json:"booking_id" toml:"booking_id" yaml:"booking_id"`
+	BookingUUID string      `boil:"booking_uuid" json:"booking_uuid" toml:"booking_uuid" yaml:"booking_uuid"`
 	TeamID      null.Int    `boil:"team_id" json:"team_id,omitempty" toml:"team_id" yaml:"team_id,omitempty"`
 	PlayerID    null.Int    `boil:"player_id" json:"player_id,omitempty" toml:"player_id" yaml:"player_id,omitempty"`
 	GroundID    null.Int    `boil:"ground_id" json:"ground_id,omitempty" toml:"ground_id" yaml:"ground_id,omitempty"`
@@ -40,6 +41,7 @@ type GroundBooking struct {
 
 var GroundBookingColumns = struct {
 	BookingID   string
+	BookingUUID string
 	TeamID      string
 	PlayerID    string
 	GroundID    string
@@ -50,6 +52,7 @@ var GroundBookingColumns = struct {
 	Status      string
 }{
 	BookingID:   "booking_id",
+	BookingUUID: "booking_uuid",
 	TeamID:      "team_id",
 	PlayerID:    "player_id",
 	GroundID:    "ground_id",
@@ -62,6 +65,7 @@ var GroundBookingColumns = struct {
 
 var GroundBookingTableColumns = struct {
 	BookingID   string
+	BookingUUID string
 	TeamID      string
 	PlayerID    string
 	GroundID    string
@@ -72,6 +76,7 @@ var GroundBookingTableColumns = struct {
 	Status      string
 }{
 	BookingID:   "ground_bookings.booking_id",
+	BookingUUID: "ground_bookings.booking_uuid",
 	TeamID:      "ground_bookings.team_id",
 	PlayerID:    "ground_bookings.player_id",
 	GroundID:    "ground_bookings.ground_id",
@@ -86,6 +91,7 @@ var GroundBookingTableColumns = struct {
 
 var GroundBookingWhere = struct {
 	BookingID   whereHelperint
+	BookingUUID whereHelperstring
 	TeamID      whereHelpernull_Int
 	PlayerID    whereHelpernull_Int
 	GroundID    whereHelpernull_Int
@@ -96,6 +102,7 @@ var GroundBookingWhere = struct {
 	Status      whereHelpernull_String
 }{
 	BookingID:   whereHelperint{field: "\"ground_bookings\".\"booking_id\""},
+	BookingUUID: whereHelperstring{field: "\"ground_bookings\".\"booking_uuid\""},
 	TeamID:      whereHelpernull_Int{field: "\"ground_bookings\".\"team_id\""},
 	PlayerID:    whereHelpernull_Int{field: "\"ground_bookings\".\"player_id\""},
 	GroundID:    whereHelpernull_Int{field: "\"ground_bookings\".\"ground_id\""},
@@ -164,8 +171,8 @@ func (r *groundBookingR) GetBookingPayments() PaymentSlice {
 type groundBookingL struct{}
 
 var (
-	groundBookingAllColumns            = []string{"booking_id", "team_id", "player_id", "ground_id", "booking_date", "start_time", "end_time", "purpose", "status"}
-	groundBookingColumnsWithoutDefault = []string{"booking_date", "start_time", "end_time"}
+	groundBookingAllColumns            = []string{"booking_id", "booking_uuid", "team_id", "player_id", "ground_id", "booking_date", "start_time", "end_time", "purpose", "status"}
+	groundBookingColumnsWithoutDefault = []string{"booking_uuid", "booking_date", "start_time", "end_time"}
 	groundBookingColumnsWithDefault    = []string{"booking_id", "team_id", "player_id", "ground_id", "purpose", "status"}
 	groundBookingPrimaryKeyColumns     = []string{"booking_id"}
 	groundBookingGeneratedColumns      = []string{}

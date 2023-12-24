@@ -738,7 +738,7 @@ func testPaymentsSelect(t *testing.T) {
 }
 
 var (
-	paymentDBTypes = map[string]string{`PaymentID`: `integer`, `BookingID`: `integer`, `Amount`: `numeric`, `PaymentDate`: `date`, `PaymentStatus`: `character varying`}
+	paymentDBTypes = map[string]string{`PaymentID`: `integer`, `PaymentUUID`: `uuid`, `BookingID`: `integer`, `Amount`: `numeric`, `PaymentDate`: `date`, `PaymentStatus`: `character varying`}
 	_              = bytes.MinRead
 )
 

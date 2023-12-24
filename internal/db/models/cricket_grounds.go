@@ -25,6 +25,7 @@ import (
 // CricketGround is an object representing the database table.
 type CricketGround struct {
 	GroundID        int         `boil:"ground_id" json:"ground_id" toml:"ground_id" yaml:"ground_id"`
+	GroundUUID      string      `boil:"ground_uuid" json:"ground_uuid" toml:"ground_uuid" yaml:"ground_uuid"`
 	GroundName      string      `boil:"ground_name" json:"ground_name" toml:"ground_name" yaml:"ground_name"`
 	Location        null.String `boil:"location" json:"location,omitempty" toml:"location" yaml:"location,omitempty"`
 	TeamCountry     null.String `boil:"team_country" json:"team_country,omitempty" toml:"team_country" yaml:"team_country,omitempty"`
@@ -42,6 +43,7 @@ type CricketGround struct {
 
 var CricketGroundColumns = struct {
 	GroundID        string
+	GroundUUID      string
 	GroundName      string
 	Location        string
 	TeamCountry     string
@@ -54,6 +56,7 @@ var CricketGroundColumns = struct {
 	UpdatedAt       string
 }{
 	GroundID:        "ground_id",
+	GroundUUID:      "ground_uuid",
 	GroundName:      "ground_name",
 	Location:        "location",
 	TeamCountry:     "team_country",
@@ -68,6 +71,7 @@ var CricketGroundColumns = struct {
 
 var CricketGroundTableColumns = struct {
 	GroundID        string
+	GroundUUID      string
 	GroundName      string
 	Location        string
 	TeamCountry     string
@@ -80,6 +84,7 @@ var CricketGroundTableColumns = struct {
 	UpdatedAt       string
 }{
 	GroundID:        "cricket_grounds.ground_id",
+	GroundUUID:      "cricket_grounds.ground_uuid",
 	GroundName:      "cricket_grounds.ground_name",
 	Location:        "cricket_grounds.location",
 	TeamCountry:     "cricket_grounds.team_country",
@@ -258,6 +263,7 @@ func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsN
 
 var CricketGroundWhere = struct {
 	GroundID        whereHelperint
+	GroundUUID      whereHelperstring
 	GroundName      whereHelperstring
 	Location        whereHelpernull_String
 	TeamCountry     whereHelpernull_String
@@ -270,6 +276,7 @@ var CricketGroundWhere = struct {
 	UpdatedAt       whereHelpernull_Time
 }{
 	GroundID:        whereHelperint{field: "\"cricket_grounds\".\"ground_id\""},
+	GroundUUID:      whereHelperstring{field: "\"cricket_grounds\".\"ground_uuid\""},
 	GroundName:      whereHelperstring{field: "\"cricket_grounds\".\"ground_name\""},
 	Location:        whereHelpernull_String{field: "\"cricket_grounds\".\"location\""},
 	TeamCountry:     whereHelpernull_String{field: "\"cricket_grounds\".\"team_country\""},
@@ -310,8 +317,8 @@ func (r *cricketGroundR) GetGroundGroundBookings() GroundBookingSlice {
 type cricketGroundL struct{}
 
 var (
-	cricketGroundAllColumns            = []string{"ground_id", "ground_name", "location", "team_country", "team_state", "team_city", "capacity", "established_year", "listed_year", "created_at", "updated_at"}
-	cricketGroundColumnsWithoutDefault = []string{"ground_name"}
+	cricketGroundAllColumns            = []string{"ground_id", "ground_uuid", "ground_name", "location", "team_country", "team_state", "team_city", "capacity", "established_year", "listed_year", "created_at", "updated_at"}
+	cricketGroundColumnsWithoutDefault = []string{"ground_uuid", "ground_name"}
 	cricketGroundColumnsWithDefault    = []string{"ground_id", "location", "team_country", "team_state", "team_city", "capacity", "established_year", "listed_year", "created_at", "updated_at"}
 	cricketGroundPrimaryKeyColumns     = []string{"ground_id"}
 	cricketGroundGeneratedColumns      = []string{}

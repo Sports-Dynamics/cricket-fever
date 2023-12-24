@@ -896,7 +896,7 @@ func testCricketGroundsSelect(t *testing.T) {
 }
 
 var (
-	cricketGroundDBTypes = map[string]string{`GroundID`: `integer`, `GroundName`: `character varying`, `Location`: `character varying`, `TeamCountry`: `character varying`, `TeamState`: `character varying`, `TeamCity`: `character varying`, `Capacity`: `integer`, `EstablishedYear`: `integer`, `ListedYear`: `integer`, `CreatedAt`: `timestamp without time zone`, `UpdatedAt`: `timestamp without time zone`}
+	cricketGroundDBTypes = map[string]string{`GroundID`: `integer`, `GroundUUID`: `uuid`, `GroundName`: `character varying`, `Location`: `character varying`, `TeamCountry`: `character varying`, `TeamState`: `character varying`, `TeamCity`: `character varying`, `Capacity`: `integer`, `EstablishedYear`: `integer`, `ListedYear`: `integer`, `CreatedAt`: `timestamp without time zone`, `UpdatedAt`: `timestamp without time zone`}
 	_                    = bytes.MinRead
 )
 

@@ -105,6 +105,7 @@ CREATE TABLE team_players(
 
 CREATE TABLE cricket_grounds (
     ground_id SERIAL PRIMARY KEY,
+    ground_uuid UUID UNIQUE NOT NULL,
     ground_name VARCHAR(255) NOT NULL,
     location VARCHAR(255),
     team_country VARCHAR(49) ,
@@ -120,6 +121,7 @@ CREATE TABLE cricket_grounds (
 -- Create table for bookings
 CREATE TABLE ground_bookings (
     booking_id SERIAL PRIMARY KEY,
+    booking_uuid UUID UNIQUE NOT NULL,
     team_id INT REFERENCES cricket_teams(team_id),
     player_id INT REFERENCES cricket_players(player_id),
     ground_id INT REFERENCES cricket_grounds(ground_id),
@@ -158,6 +160,7 @@ FOR EACH ROW EXECUTE FUNCTION check_team_count();
 -- Create table for payments
 CREATE TABLE payments (
     payment_id SERIAL PRIMARY KEY,
+    payment_uuid UUID UNIQUE NOT NULL,
     booking_id INT REFERENCES ground_bookings(booking_id),
     amount DECIMAL(10, 2) NOT NULL,
     payment_date DATE NOT NULL,

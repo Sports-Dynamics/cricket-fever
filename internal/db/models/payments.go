@@ -26,6 +26,7 @@ import (
 // Payment is an object representing the database table.
 type Payment struct {
 	PaymentID     int           `boil:"payment_id" json:"payment_id" toml:"payment_id" yaml:"payment_id"`
+	PaymentUUID   string        `boil:"payment_uuid" json:"payment_uuid" toml:"payment_uuid" yaml:"payment_uuid"`
 	BookingID     null.Int      `boil:"booking_id" json:"booking_id,omitempty" toml:"booking_id" yaml:"booking_id,omitempty"`
 	Amount        types.Decimal `boil:"amount" json:"amount" toml:"amount" yaml:"amount"`
 	PaymentDate   time.Time     `boil:"payment_date" json:"payment_date" toml:"payment_date" yaml:"payment_date"`
@@ -37,12 +38,14 @@ type Payment struct {
 
 var PaymentColumns = struct {
 	PaymentID     string
+	PaymentUUID   string
 	BookingID     string
 	Amount        string
 	PaymentDate   string
 	PaymentStatus string
 }{
 	PaymentID:     "payment_id",
+	PaymentUUID:   "payment_uuid",
 	BookingID:     "booking_id",
 	Amount:        "amount",
 	PaymentDate:   "payment_date",
@@ -51,12 +54,14 @@ var PaymentColumns = struct {
 
 var PaymentTableColumns = struct {
 	PaymentID     string
+	PaymentUUID   string
 	BookingID     string
 	Amount        string
 	PaymentDate   string
 	PaymentStatus string
 }{
 	PaymentID:     "payments.payment_id",
+	PaymentUUID:   "payments.payment_uuid",
 	BookingID:     "payments.booking_id",
 	Amount:        "payments.amount",
 	PaymentDate:   "payments.payment_date",
@@ -88,12 +93,14 @@ func (w whereHelpertypes_Decimal) GTE(x types.Decimal) qm.QueryMod {
 
 var PaymentWhere = struct {
 	PaymentID     whereHelperint
+	PaymentUUID   whereHelperstring
 	BookingID     whereHelpernull_Int
 	Amount        whereHelpertypes_Decimal
 	PaymentDate   whereHelpertime_Time
 	PaymentStatus whereHelpernull_String
 }{
 	PaymentID:     whereHelperint{field: "\"payments\".\"payment_id\""},
+	PaymentUUID:   whereHelperstring{field: "\"payments\".\"payment_uuid\""},
 	BookingID:     whereHelpernull_Int{field: "\"payments\".\"booking_id\""},
 	Amount:        whereHelpertypes_Decimal{field: "\"payments\".\"amount\""},
 	PaymentDate:   whereHelpertime_Time{field: "\"payments\".\"payment_date\""},
@@ -128,8 +135,8 @@ func (r *paymentR) GetBooking() *GroundBooking {
 type paymentL struct{}
 
 var (
-	paymentAllColumns            = []string{"payment_id", "booking_id", "amount", "payment_date", "payment_status"}
-	paymentColumnsWithoutDefault = []string{"amount", "payment_date"}
+	paymentAllColumns            = []string{"payment_id", "payment_uuid", "booking_id", "amount", "payment_date", "payment_status"}
+	paymentColumnsWithoutDefault = []string{"payment_uuid", "amount", "payment_date"}
 	paymentColumnsWithDefault    = []string{"payment_id", "booking_id", "payment_status"}
 	paymentPrimaryKeyColumns     = []string{"payment_id"}
 	paymentGeneratedColumns      = []string{}

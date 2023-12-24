@@ -1406,7 +1406,7 @@ func testGroundBookingsSelect(t *testing.T) {
 }
 
 var (
-	groundBookingDBTypes = map[string]string{`BookingID`: `integer`, `TeamID`: `integer`, `PlayerID`: `integer`, `GroundID`: `integer`, `BookingDate`: `date`, `StartTime`: `time without time zone`, `EndTime`: `time without time zone`, `Purpose`: `character varying`, `Status`: `character varying`}
+	groundBookingDBTypes = map[string]string{`BookingID`: `integer`, `BookingUUID`: `uuid`, `TeamID`: `integer`, `PlayerID`: `integer`, `GroundID`: `integer`, `BookingDate`: `date`, `StartTime`: `time without time zone`, `EndTime`: `time without time zone`, `Purpose`: `character varying`, `Status`: `character varying`}
 	_                    = bytes.MinRead
 )
 

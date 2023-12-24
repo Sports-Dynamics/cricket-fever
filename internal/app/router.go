@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+	"github.com/sports-dynamics/cricket-fever/internal/cricketgrounds"
 	"github.com/sports-dynamics/cricket-fever/internal/handlers"
 	auth "github.com/sports-dynamics/cricket-fever/internal/middleware"
 	"github.com/sports-dynamics/cricket-fever/internal/players"
@@ -71,6 +72,23 @@ func newRouter(config Config) http.Handler {
 
 			// delete player profile
 			r.Delete("/{"+players.PlayerUUID+"}", players.DeletePlayerHandler(playerRepo))
+		})
+
+		cricketGroundRepo := cricketgrounds.NewCricketGroundsRepo(db)
+		CricketGroundService := cricketgrounds.NewCricketGroundService(cricketGroundRepo)
+
+		r.Route("/cricketgrounds", func(r chi.Router) {
+			// create a new cricket ground profile
+			r.Post("/", cricketgrounds.CreateCricketGroundHandler(CricketGroundService))
+
+			// fetch ground profile details
+			r.Get("/", cricketgrounds.GetGroundsHandler(cricketGroundRepo))
+
+			// update ground profile details
+			r.Put("/{"+cricketgrounds.GroundUUID+"}", cricketgrounds.UpdateGroundHandler(cricketGroundRepo))
+
+			// delete ground profile
+			r.Delete("/{"+players.PlayerUUID+"}", cricketgrounds.DeleteGroundHandler(CricketGroundService))
 		})
 
 	})

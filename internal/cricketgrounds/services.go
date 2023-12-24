@@ -18,7 +18,7 @@ type team struct {
 	teamRepo TeamRepo
 }
 
-func NewTeamService(teams TeamRepo) TeamService {
+func NewCricketGroundService(teams TeamRepo) TeamService {
 	return &team{teamRepo: teams}
 }
 

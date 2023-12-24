@@ -10,16 +10,16 @@ import (
 	"go.uber.org/zap"
 )
 
-type deleteTeam struct {
+type deleteGround struct {
 	service TeamService
 }
 
-func DeleteTeamHandler(service TeamService) http.HandlerFunc {
+func DeleteGroundHandler(service TeamService) http.HandlerFunc {
 
-	return deleteTeam{service: service}.ServeHTTP
+	return deleteGround{service: service}.ServeHTTP
 }
 
-func (t deleteTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (t deleteGround) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	uuid, err := utils.GetUUIDFromRequest(r, GroundUUID)
 	if err != nil {

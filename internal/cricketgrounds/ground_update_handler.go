@@ -10,16 +10,16 @@ import (
 	"go.uber.org/zap"
 )
 
-type updateTeam struct {
+type updateGround struct {
 	repo TeamRepo
 }
 
-func UpdateTeamHandler(repo TeamRepo) http.HandlerFunc {
+func UpdateGroundHandler(repo TeamRepo) http.HandlerFunc {
 
-	return updateTeam{repo: repo}.ServeHTTP
+	return updateGround{repo: repo}.ServeHTTP
 }
 
-func (t updateTeam) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (t updateGround) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	var request *CreateNewGroundRequest
 

@@ -22,7 +22,7 @@ type Repo struct {
 	db *sql.DB
 }
 
-func NewTeamRepo(db *sql.DB) TeamRepo {
+func NewCricketGroundsRepo(db *sql.DB) TeamRepo {
 	return &Repo{db: db}
 }
 

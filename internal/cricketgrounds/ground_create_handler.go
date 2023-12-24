@@ -14,7 +14,7 @@ type createTeam struct {
 	service TeamService
 }
 
-func CreateTeamHandler(service TeamService) http.HandlerFunc {
+func CreateCricketGroundHandler(service TeamService) http.HandlerFunc {
 
 	return createTeam{service: service}.ServeHTTP
 }
